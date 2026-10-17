@@ -1,4 +1,6 @@
 {
+  "version": 2,
+  "name": "butcehesabim",
   "cleanUrls": true,
   "trailingSlash": false,
   "headers": [

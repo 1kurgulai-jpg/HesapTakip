@@ -1,6 +1,6 @@
 {
-  "name": "Turkuaz Finans - Kişisel Bütçe & Maaş Döngüsü Takibi",
-  "short_name": "TurkuazBütçe",
+  "name": "BütçeHesabım - Kişisel Bütçe & Maaş Döngüsü Takibi",
+  "short_name": "BütçeHesabım",
   "description": "Maaş döngünüze göre kişisel bütçe, fatura, yatırım ve cebinde kalan net tutar takip uygulaması.",
   "start_url": "/index.html",
   "display": "standalone",
