@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#042f2e" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="TurkuazBütçe" />
+  <meta name="description" content="Maaş döngünüze göre kişisel bütçe, fatura, yatırım ve cebinde kalan net tutar takip uygulaması." />
+  
+  <title>Turkuaz Finans — Kişisel Bütçe & Maaş Döngüsü Takibi</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+  <link rel="apple-touch-icon" href="/icon.svg" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            turq: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              200: '#99f6e4',
+              300: '#5eead4',
+              400: '#2dd4bf',
+              500: '#14b8a6',
+              600: '#0d9488',
+              700: '#0f766e',
+              800: '#115e59',
+              900: '#134e4a',
+              950: '#042f2e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+      --sal: env(safe-area-inset-left, 0px);
+      --sar: env(safe-area-inset-right, 0px);
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+      background-color: #021c1b;
+      color: #f0fdfa;
+      scroll-behavior: smooth;
+      overscroll-behavior-y: none;
+    }
+
+    body {
+      padding-top: max(0.75rem, var(--sat));
+      padding-bottom: calc(5.75rem + var(--sab));
+      padding-left: var(--sal);
+      padding-right: var(--sar);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(20, 184, 166, 0.18) 0px, transparent 50%),
+        radial-gradient(at 100% 15%, rgba(6, 182, 212, 0.15) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(13, 148, 136, 0.12) 0px, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    .glass-card {
+      background: rgba(13, 45, 44, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(45, 212, 191, 0.16);
+    }
+
+    .glass-hero {
+      background: linear-gradient(135deg, rgba(15, 118, 110, 0.42) 0%, rgba(4, 47, 46, 0.88) 55%, rgba(6, 95, 70, 0.45) 100%);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(94, 234, 212, 0.28);
+      box-shadow: 0 20px 45px -15px rgba(4, 47, 46, 0.85), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+    }
+
+    .bottom-nav-safe {
+      padding-bottom: max(0.65rem, var(--sab));
+      background: rgba(3, 29, 28, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(45, 212, 191, 0.18);
+    }
+
+    /* Hide scrollbar for horizontal pills while keeping scroll functionality */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.35); }
+      50% { box-shadow: 0 0 0 8px rgba(45, 212, 191, 0); }
+    }
+    .pulse-turq {
+      animation: pulseGlow 2.4s infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen antialiased selection:bg-turq-500 selection:text-turq-950">
+
+  <!-- Main Container (Responsive & Safe-Area Compatible) -->
+  <div class="max-w-4xl mx-auto px-3.5 sm:px-6 pt-1 pb-8 space-y-5">
+
+    <!-- Top Header -->
+    <header class="flex items-center justify-between gap-2 pt-1">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-turq-400 via-turq-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-turq-500/20 shrink-0 border border-turq-300/30">
+          <i data-lucide="wallet" class="w-5 h-5 text-turq-950 stroke-[2.4]"></i>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white truncate">Turkuaz<span class="text-turq-400">Finans</span></h1>
+            <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-turq-500/15 text-turq-300 border border-turq-400/25">
+              Akıllı Döngü
+            </span>
+          </div>
+          <p class="text-xs text-turq-200/70 truncate" id="headerSubtitle">Kişisel Maaş & Nakit Akışı Yönetimi</p>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <!-- Notification Button -->
+        <button id="btnNotification" onclick="handleNotificationPermission()" title="Ödeme Bildirimleri"
+          class="relative p-2.5 rounded-xl glass-card hover:bg-turq-800/50 active:scale-95 transition flex items-center gap-1.5 text-turq-200">
+          <i data-lucide="bell" class="w-4 h-4" id="notifIcon"></i>
+          <span class="hidden md:inline text-xs font-semibold" id="notifStatusText">Bildirimler</span>
+          <span id="notifBadge" class="hidden absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-400 text-turq-950 text-[10px] font-extrabold flex items-center justify-center">0</span>
+        </button>
+
+        <!-- Cycle Settings Button -->
+        <button onclick="openCycleModal()" title="Maaş Döngüsü Ayarları"
+          class="p-2.5 rounded-xl glass-card hover:bg-turq-800/50 active:scale-95 transition flex items-center gap-1.5 text-turq-200">
+          <i data-lucide="calendar-cog" class="w-4 h-4 text-turq-400"></i>
+          <span class="text-xs font-semibold hidden sm:inline">Maaş Günü:</span>
+          <span class="text-xs font-mono font-bold text-turq-300 bg-turq-900/80 px-1.5 py-0.5 rounded-md border border-turq-500/30" id="salaryDayBadge">15</span>
+        </button>
+
+        <!-- Backup / More Menu Button -->
+        <button onclick="openSettingsModal()" title="Veri & Uygulama Ayarları"
+          class="p-2.5 rounded-xl glass-card hover:bg-turq-800/50 active:scale-95 transition text-turq-200">
+          <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Salary Cycle Bar (Maaş Döngüsü Seçici ve İlerleme) -->
+    <section class="glass-card rounded-2xl p-3.5 sm:p-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <!-- Cycle Navigator -->
+        <div class="flex items-center justify-between sm:justify-start gap-2">
+          <button onclick="shiftCycle(-1)" class="p-2 rounded-xl bg-turq-900/60 hover:bg-turq-800/80 text-turq-200 active:scale-95 transition border border-turq-500/20" title="Önceki Maaş Döngüsü">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          </button>
+
+          <div class="text-center sm:text-left px-1">
+            <div class="flex items-center justify-center sm:justify-start gap-1.5">
+              <span class="inline-block w-2 h-2 rounded-full bg-turq-400 animate-pulse" id="activeCycleDot"></span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-turq-300/90" id="cycleLabelTag">MEVCUT MAAŞ DÖNGÜSÜ</span>
+            </div>
+            <h2 class="text-sm sm:text-base font-bold text-white mt-0.5" id="cycleDateRangeText">15 Eki 2026 - 14 Kas 2026</h2>
+          </div>
+
+          <button onclick="shiftCycle(1)" class="p-2 rounded-xl bg-turq-900/60 hover:bg-turq-800/80 text-turq-200 active:scale-95 transition border border-turq-500/20" title="Sonraki Maaş Döngüsü">
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+
+          <button id="btnResetCycle" onclick="resetToCurrentCycle()" class="hidden ml-1 px-2.5 py-1.5 rounded-xl bg-turq-500/20 hover:bg-turq-500/30 text-turq-300 text-xs font-semibold border border-turq-400/30 transition">
+            Bugüne Dön
+          </button>
+        </div>
+
+        <!-- Cycle Progress & Days Left -->
+        <div class="flex items-center gap-3 bg-turq-950/60 px-3 py-2 rounded-xl border border-turq-500/15">
+          <div class="flex-1 sm:w-36">
+            <div class="flex justify-between text-[11px] font-medium mb-1">
+              <span class="text-turq-200/75" id="cycleStatusText">Döngü İlerlemesi</span>
+              <span class="font-mono font-semibold text-turq-300" id="cycleDaysLeftText">27 gün kaldı</span>
+            </div>
+            <div class="w-full h-1.5 bg-turq-900 rounded-full overflow-hidden">
+              <div id="cycleProgressBar" class="h-full bg-gradient-to-r from-turq-400 to-cyan-400 rounded-full transition-all duration-500" style="width: 15%"></div>
+            </div>
+          </div>
+          <button onclick="openCycleModal()" class="text-xs text-turq-300 hover:text-white underline underline-offset-2 font-medium shrink-0">
+            Döngüyü Değiştir
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upcoming Bill Notification Banner (Dynamic Alert) -->
+    <div id="dueAlertsContainer" class="hidden space-y-2"></div>
+
+    <!-- HERO: AY SONU ÖZET PANELİ (CEBİNDE KALAN NET TUTAR) -->
+    <section class="glass-hero rounded-3xl p-5 sm:p-6 relative overflow-hidden">
+      <!-- Decorative Subtle Glow -->
+      <div class=" -right-10 -top-10 w-44 h-44 bg-turq-400/15 rounded-full blur-2xl pointer-events-none absolute"></div>
+      <div class=" -left-10 -bottom-10 w-44 h-44 bg-cyan-400/10 rounded-full blur-2xl pointer-events-none absolute"></div>
+
+      <div class="relative z-10">
+        <!-- Top Row: Title & Safe Daily Limit -->
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-turq-400/20 text-turq-200 border border-turq-300/30 flex items-center gap-1.5">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-turq-300"></i>
+              Ay Sonu Özet Paneli
+            </span>
+            <span id="netHealthBadge" class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+              Pozitif Bütçe
+            </span>
+          </div>
+
+          <div class="text-right">
+            <span class="text-[11px] text-turq-200/70 block">Günlük Rahat Harcama Limiti</span>
+            <span class="text-xs sm:text-sm font-mono font-bold text-turq-300" id="dailySafeLimit">₺0,00 / gün</span>
+          </div>
+        </div>
+
+        <!-- Main Net Remaining Display (Cebinde Kalan Net Tutar) -->
+        <div class="my-3 sm:my-4">
+          <p class="text-xs sm:text-sm font-semibold uppercase tracking-wider text-turq-200/80 flex items-center gap-1.5">
+            Cebinde Kalan Net Tutar
+            <span class="text-[11px] font-normal lowercase text-turq-300/70">(gelir − gider − yatırım)</span>
+          </p>
+          <div class="flex items-baseline gap-3 mt-1 flex-wrap">
+            <h2 id="netRemainingAmount" class="text-3xl sm:text-5xl font-extrabold font-mono tracking-tight text-white">
+              ₺0,00
+            </h2>
+            <span id="savingsRateChip" class="text-xs font-mono font-semibold px-2.5 py-1 rounded-lg bg-turq-950/70 text-turq-300 border border-turq-400/25">
+              %0 Tasarruf + Nakit
+            </span>
+          </div>
+        </div>
+
+        <!-- 3 Pillar Summary Cards Inside Hero -->
+        <div class="grid grid-cols-3 gap-2 sm:gap-3.5 mt-5">
+          <!-- Toplam Gelir -->
+          <div onclick="switchCategoryFilter('income')" class="cursor-pointer bg-turq-950/65 hover:bg-turq-950/85 border border-emerald-400/25 rounded-2xl p-3 sm:p-3.5 transition">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[11px] sm:text-xs font-semibold text-emerald-300/90">Toplam Gelir</span>
+              <div class="w-6 h-6 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-300">
+                <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+              </div>
+            </div>
+            <p id="totalIncomeText" class="text-sm sm:text-lg font-mono font-bold text-white truncate">₺0</p>
+            <p id="incomeCountText" class="text-[10px] sm:text-[11px] text-turq-200/60 mt-0.5 truncate">0 kalem</p>
+          </div>
+
+          <!-- Giderler & Faturalar -->
+          <div onclick="switchCategoryFilter('expense')" class="cursor-pointer bg-turq-950/65 hover:bg-turq-950/85 border border-rose-400/25 rounded-2xl p-3 sm:p-3.5 transition">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[11px] sm:text-xs font-semibold text-rose-300/90">Gider & Fatura</span>
+              <div class="w-6 h-6 rounded-lg bg-rose-500/20 flex items-center justify-center text-rose-300">
+                <i data-lucide="receipt" class="w-3.5 h-3.5"></i>
+              </div>
+            </div>
+            <p id="totalExpenseText" class="text-sm sm:text-lg font-mono font-bold text-white truncate">₺0</p>
+            <p id="expenseStatusSubtext" class="text-[10px] sm:text-[11px] text-rose-300/80 mt-0.5 truncate">₺0 bekliyor</p>
+          </div>
+
+          <!-- Yatırımlar -->
+          <div onclick="switchCategoryFilter('investment')" class="cursor-pointer bg-turq-950/65 hover:bg-turq-950/85 border border-cyan-400/25 rounded-2xl p-3 sm:p-3.5 transition">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[11px] sm:text-xs font-semibold text-cyan-300/90">Yatırım & Birikim</span>
+              <div class="w-6 h-6 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-300">
+                <i data-lucide="gem" class="w-3.5 h-3.5"></i>
+              </div>
+            </div>
+            <p id="totalInvestmentText" class="text-sm sm:text-lg font-mono font-bold text-white truncate">₺0</p>
+            <p id="investmentCountText" class="text-[10px] sm:text-[11px] text-turq-200/60 mt-0.5 truncate">0 işlem</p>
+          </div>
+        </div>
+
+        <!-- Visual Allocation Bar (Gider / Yatırım / Cebinde Kalan) -->
+        <div class="mt-4 pt-3.5 border-t border-turq-400/20">
+          <div class="flex justify-between items-center text-[11px] text-turq-200/80 mb-1.5">
+            <span>Maaş Dağılım Oranı</span>
+            <div class="flex items-center gap-3">
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-400"></span>Gider <b id="pctExpense" class="font-mono">%0</b></span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-cyan-400"></span>Yatırım <b id="pctInvestment" class="font-mono">%0</b></span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-turq-400"></span>Kalan <b id="pctRemaining" class="font-mono">%0</b></span>
+            </div>
+          </div>
+          <div class="w-full h-2.5 bg-turq-950/90 rounded-full overflow-hidden flex gap-0.5 p-0.5 border border-turq-500/20">
+            <div id="barExpense" class="h-full bg-rose-400 rounded-l-full transition-all duration-500" style="width: 0%"></div>
+            <div id="barInvestment" class="h-full bg-cyan-400 transition-all duration-500" style="width: 0%"></div>
+            <div id="barRemaining" class="h-full bg-turq-400 rounded-r-full transition-all duration-500" style="width: 100%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Add Buttons (3 Primary Actions) -->
+    <section class="grid grid-cols-3 gap-2.5 sm:gap-3">
+      <button onclick="openTransactionModal('income')"
+        class="flex items-center justify-center gap-2 py-3 px-3 rounded-2xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/30 text-emerald-200 font-semibold text-xs sm:text-sm active:scale-95 transition shadow-sm">
+        <i data-lucide="plus-circle" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+        <span class="truncate">Gelir Ekle</span>
+      </button>
+
+      <button onclick="openTransactionModal('expense')"
+        class="flex items-center justify-center gap-2 py-3 px-3 rounded-2xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-400/30 text-rose-200 font-semibold text-xs sm:text-sm active:scale-95 transition shadow-sm">
+        <i data-lucide="calendar-clock" class="w-4 h-4 text-rose-400 shrink-0"></i>
+        <span class="truncate">Fatura / Gider</span>
+      </button>
+
+      <button onclick="openTransactionModal('investment')"
+        class="flex items-center justify-center gap-2 py-3 px-3 rounded-2xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-400/30 text-cyan-200 font-semibold text-xs sm:text-sm active:scale-95 transition shadow-sm">
+        <i data-lucide="piggy-bank" class="w-4 h-4 text-cyan-400 shrink-0"></i>
+        <span class="truncate">Yatırım Ekle</span>
+      </button>
+    </section>
+
+    <!-- Payment Day Calendar Strip (Ödeme Günleri Takvimi) -->
+    <section class="glass-card rounded-2xl p-4">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <i data-lucide="bell-ring" class="w-4 h-4 text-turq-400"></i>
+          <h3 class="text-xs sm:text-sm font-bold text-white">Fatura & Ödeme Günü Takvimi</h3>
+        </div>
+        <span id="unpaidBillsSummary" class="text-[11px] font-medium text-amber-300 bg-amber-500/15 px-2.5 py-0.5 rounded-full border border-amber-400/25">
+          0 bekleyen ödeme
+        </span>
+      </div>
+
+      <!-- Horizontal Upcoming Bills Pills -->
+      <div id="upcomingBillsStrip" class="flex gap-2.5 overflow-x-auto no-scrollbar pb-1">
+        <!-- Populated dynamically by JS -->
+      </div>
+    </section>
+
+    <!-- Transactions & Category Tabs Section -->
+    <section class="space-y-3">
+      <!-- Filter Tabs + Search -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar bg-turq-950/80 p-1.5 rounded-2xl border border-turq-500/20">
+          <button onclick="switchCategoryFilter('all')" id="tab-all"
+            class="tab-btn px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-turq-500 text-turq-950">
+            Tümü
+          </button>
+          <button onclick="switchCategoryFilter('income')" id="tab-income"
+            class="tab-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition whitespace-nowrap text-turq-200/80 hover:text-white">
+            Gelirler
+          </button>
+          <button onclick="switchCategoryFilter('expense')" id="tab-expense"
+            class="tab-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition whitespace-nowrap text-turq-200/80 hover:text-white">
+            Gider & Faturalar
+          </button>
+          <button onclick="switchCategoryFilter('investment')" id="tab-investment"
+            class="tab-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition whitespace-nowrap text-turq-200/80 hover:text-white">
+            Yatırımlar
+          </button>
+        </div>
+
+        <!-- Search Input -->
+        <div class="relative">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-turq-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+          <input type="text" id="searchInput" oninput="renderApp()" placeholder="Kalem veya kategori ara..."
+            class="w-full sm:w-56 pl-8 pr-3 py-2 rounded-xl bg-turq-950/80 border border-turq-500/25 text-xs text-white placeholder-turq-300/40 focus:outline-none focus:border-turq-400" />
+        </div>
+      </div>
+
+      <!-- Transactions List -->
+      <div id="transactionsList" class="space-y-2.5">
+        <!-- Populated dynamically by JS -->
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Mobile Bottom Navigation Bar (PWA Safe-Area) -->
+  <nav class="fixed bottom-0 left-0 right-0 z-40 bottom-nav-safe">
+    <div class="max-w-md mx-auto px-3 pt-2 flex items-center justify-around">
+      <button onclick="switchCategoryFilter('all'); window.scrollTo({top:0, behavior:'smooth'})" class="flex flex-col items-center gap-1 py-1 px-3 text-turq-300 hover:text-white transition">
+        <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+        <span class="text-[10px] font-semibold">Özet</span>
+      </button>
+
+      <button onclick="switchCategoryFilter('expense')" class="flex flex-col items-center gap-1 py-1 px-3 text-turq-200/75 hover:text-white transition">
+        <i data-lucide="receipt" class="w-5 h-5"></i>
+        <span class="text-[10px] font-semibold">Faturalar</span>
+      </button>
+
+      <!-- Center Floating Add Button -->
+      <button onclick="openTransactionModal('expense')" class=" -mt-5 w-13 h-13 p-3.5 rounded-2xl bg-gradient-to-tr from-turq-600 via-turq-500 to-cyan-400 text-turq-950 shadow-lg shadow-turq-500/35 border border-white/25 active:scale-95 transition flex items-center justify-center pulse-turq" aria-label="Yeni Kayıt Ekle">
+        <i data-lucide="plus" class="w-6 h-6 stroke-[2.8]"></i>
+      </button>
+
+      <button onclick="switchCategoryFilter('investment')" class="flex flex-col items-center gap-1 py-1 px-3 text-turq-200/75 hover:text-white transition">
+        <i data-lucide="gem" class="w-5 h-5"></i>
+        <span class="text-[10px] font-semibold">Yatırım</span>
+      </button>
+
+      <button onclick="openCycleModal()" class="flex flex-col items-center gap-1 py-1 px-3 text-turq-200/75 hover:text-white transition">
+        <i data-lucide="calendar-range" class="w-5 h-5"></i>
+        <span class="text-[10px] font-semibold">Döngü</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MODAL 1: ADD / EDIT TRANSACTION (GELİR / GİDER & FATURA / YATIRIM) -->
+  <div id="transactionModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="w-full max-w-lg bg-[#052e2b] border-t sm:border border-turq-400/30 rounded-t-3xl sm:rounded-3xl p-5 sm:p-6 shadow-2xl max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-turq-500/20">
+        <h3 id="modalTitle" class="text-base sm:text-lg font-extrabold text-white">Yeni Kayıt Ekle</h3>
+        <button onclick="closeTransactionModal()" class="p-1.5 rounded-xl bg-turq-900/70 text-turq-300 hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="transactionForm" onsubmit="saveTransaction(event)" class="space-y-4 mt-4">
+        <input type="hidden" id="editTxId" value="" />
+
+        <!-- Type Switcher -->
+        <div class="grid grid-cols-3 gap-2 bg-turq-950 p-1.5 rounded-2xl border border-turq-500/20">
+          <button type="button" onclick="setModalType('income')" id="typeBtn-income"
+            class="py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+            <i data-lucide="trending-up" class="w-3.5 h-3.5"></i> Gelir
+          </button>
+          <button type="button" onclick="setModalType('expense')" id="typeBtn-expense"
+            class="py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+            <i data-lucide="receipt" class="w-3.5 h-3.5"></i> Gider/Fatura
+          </button>
+          <button type="button" onclick="setModalType('investment')" id="typeBtn-investment"
+            class="py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+            <i data-lucide="gem" class="w-3.5 h-3.5"></i> Yatırım
+          </button>
+        </div>
+
+        <!-- Category Preset Pills -->
+        <div>
+          <label class="block text-xs font-semibold text-turq-200/80 mb-1.5">Kategori Seçin</label>
+          <div id="categoryPresets" class="grid grid-cols-3 sm:grid-cols-4 gap-2">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- Title & Amount -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="txTitle" class="block text-xs font-semibold text-turq-200/80 mb-1">Açıklama / Kalem Adı</label>
+            <input type="text" id="txTitle" required placeholder="Örn: Ev İnterneti, Maaş, Gram Altın"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-turq-950/90 border border-turq-500/30 text-sm text-white placeholder-turq-300/40 focus:outline-none focus:border-turq-400" />
+          </div>
+
+          <div>
+            <label for="txAmount" class="block text-xs font-semibold text-turq-200/80 mb-1">Tutar (₺)</label>
+            <input type="number" id="txAmount" required min="0.01" step="0.01" placeholder="0.00"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-turq-950/90 border border-turq-500/30 text-sm font-mono font-bold text-white placeholder-turq-300/40 focus:outline-none focus:border-turq-400" />
+          </div>
+        </div>
+
+        <!-- Payment Day & Status (Especially for Bills/Expenses) -->
+        <div id="billScheduleFields" class="bg-turq-950/60 p-3.5 rounded-2xl border border-turq-500/20 space-y-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label for="txDueDay" class="block text-xs font-semibold text-turq-200/90 mb-1">
+                <span id="dayFieldLabel">Ödeme Günü (Ayın Kaçı?)</span>
+              </label>
+              <div class="relative">
+                <select id="txDueDay"
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-turq-900/90 border border-turq-500/30 text-sm font-mono text-white focus:outline-none focus:border-turq-400">
+                  <!-- 1..31 options generated via JS -->
+                </select>
+              </div>
+              <p class="text-[11px] text-turq-300/70 mt-1" id="dueDayHelperText">Ödeme günü geldiğinde bildirim alırsınız.</p>
+            </div>
+
+            <div id="paidToggleWrapper">
+              <label class="block text-xs font-semibold text-turq-200/90 mb-1">Ödeme Durumu</label>
+              <label class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-turq-900/90 border border-turq-500/30 cursor-pointer">
+                <span class="text-xs font-semibold text-turq-100" id="paidStatusLabel">Ödendi olarak işaretle</span>
+                <input type="checkbox" id="txIsPaid" class="w-4 h-4 accent-turq-400 rounded" />
+              </label>
+            </div>
+          </div>
+
+          <!-- Recurring checkbox -->
+          <label class="flex items-center gap-2.5 pt-1 cursor-pointer">
+            <input type="checkbox" id="txIsRecurring" class="w-4 h-4 accent-turq-400 rounded" />
+            <span class="text-xs text-turq-200/90">Sabit kalem (Yeni maaş döngülerine otomatik kopyalansın)</span>
+          </label>
+        </div>
+
+        <div class="flex items-center justify-end gap-2.5 pt-2">
+          <button type="button" onclick="closeTransactionModal()"
+            class="px-4 py-2.5 rounded-xl bg-turq-900/70 text-turq-200 text-xs font-semibold hover:bg-turq-800 transition">
+            İptal
+          </button>
+          <button type="submit"
+            class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-turq-500 to-cyan-500 text-turq-950 text-xs sm:text-sm font-extrabold shadow-lg shadow-turq-500/25 hover:brightness-110 active:scale-95 transition">
+            Kaydet
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: SALARY CYCLE SETTINGS (MAAŞ DÖNGÜSÜ VE TARİH AYARI) -->
+  <div id="cycleModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="w-full max-w-md bg-[#052e2b] border-t sm:border border-turq-400/30 rounded-t-3xl sm:rounded-3xl p-5 sm:p-6 shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-turq-500/20">
+        <div class="flex items-center gap-2">
+          <i data-lucide="calendar-cog" class="w-5 h-5 text-turq-400"></i>
+          <h3 class="text-base sm:text-lg font-extrabold text-white">Maaş Döngüsü & Tarih Ayarı</h3>
+        </div>
+        <button onclick="closeCycleModal()" class="p-1.5 rounded-xl bg-turq-900/70 text-turq-300 hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 mt-4">
+        <p class="text-xs text-turq-200/80 leading-relaxed">
+          Maaş gününüzü seçtiğinizde (Örn: <b>Ayın 15'i</b>), finansal döngünüz otomatik olarak <b>15 [Bu Ay] – 14 [Gelecek Ay]</b> şeklinde hesaplanır.
+        </p>
+
+        <!-- Quick Salary Day Presets -->
+        <div>
+          <label class="block text-xs font-semibold text-turq-200 mb-2">Hızlı Maaş Günü Seçimi</label>
+          <div class="grid grid-cols-5 gap-2">
+            <button type="button" onclick="selectSalaryDayPreset(1)" class="salary-preset py-2 rounded-xl bg-turq-900/80 border border-turq-500/30 text-xs font-mono font-bold text-turq-200 hover:border-turq-400">1'i</button>
+            <button type="button" onclick="selectSalaryDayPreset(5)" class="salary-preset py-2 rounded-xl bg-turq-900/80 border border-turq-500/30 text-xs font-mono font-bold text-turq-200 hover:border-turq-400">5'i</button>
+            <button type="button" onclick="selectSalaryDayPreset(10)" class="salary-preset py-2 rounded-xl bg-turq-900/80 border border-turq-500/30 text-xs font-mono font-bold text-turq-200 hover:border-turq-400">10'u</button>
+            <button type="button" onclick="selectSalaryDayPreset(15)" class="salary-preset py-2 rounded-xl bg-turq-900/80 border border-turq-500/30 text-xs font-mono font-bold text-turq-200 hover:border-turq-400">15'i</button>
+            <button type="button" onclick="selectSalaryDayPreset(25)" class="salary-preset py-2 rounded-xl bg-turq-900/80 border border-turq-500/30 text-xs font-mono font-bold text-turq-200 hover:border-turq-400">25'i</button>
+          </div>
+        </div>
+
+        <!-- Exact Day Selector (1-31) -->
+        <div>
+          <label for="salaryDaySelect" class="block text-xs font-semibold text-turq-200 mb-1">Maaş Yatma Günü (1 - 31)</label>
+          <select id="salaryDaySelect" onchange="updateCyclePreview()"
+            class="w-full px-3.5 py-2.5 rounded-xl bg-turq-950 border border-turq-500/30 text-sm font-mono font-bold text-white focus:outline-none focus:border-turq-400">
+            <!-- Populated via JS -->
+          </select>
+        </div>
+
+        <!-- Custom Cycle Preview Card -->
+        <div class="p-3.5 rounded-2xl bg-turq-950/90 border border-turq-400/25">
+          <span class="text-[11px] uppercase tracking-wider text-turq-400 font-bold block">Hesaplanan Aktif Döngü Aralığı</span>
+          <p id="cycleModalPreview" class="text-sm font-bold text-white mt-1">15 Ekim 2026 — 14 Kasım 2026</p>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeCycleModal()" class="px-4 py-2.5 rounded-xl bg-turq-900/70 text-turq-200 text-xs font-semibold">Vazgeç</button>
+          <button type="button" onclick="saveSalaryCycleSettings()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-turq-500 to-cyan-500 text-turq-950 text-xs sm:text-sm font-extrabold shadow-lg">Döngüyü Uygula</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: SETTINGS, NOTIFICATIONS & DATA BACKUP -->
+  <div id="settingsModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="w-full max-w-md bg-[#052e2b] border-t sm:border border-turq-400/30 rounded-t-3xl sm:rounded-3xl p-5 sm:p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-turq-500/20">
+        <div class="flex items-center gap-2">
+          <i data-lucide="sliders-horizontal" class="w-5 h-5 text-turq-400"></i>
+          <h3 class="text-base sm:text-lg font-extrabold text-white">Bildirim & Veri Yönetimi</h3>
+        </div>
+        <button onclick="closeSettingsModal()" class="p-1.5 rounded-xl bg-turq-900/70 text-turq-300 hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 mt-4">
+        <!-- Browser Notification Test & Permission -->
+        <div class="p-3.5 rounded-2xl bg-turq-950/80 border border-turq-500/20 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-white flex items-center gap-1.5">
+              <i data-lucide="bell-ring" class="w-4 h-4 text-turq-400"></i>
+              Tarayıcı Ödeme Bildirimleri
+            </span>
+            <span id="settingsNotifStatus" class="text-[11px] font-mono px-2 py-0.5 rounded-md bg-turq-900 text-turq-300">Kontrol ediliyor</span>
+          </div>
+          <p class="text-[11px] text-turq-200/75">
+            Ödeme günü gelen veya yaklaşan faturalarınız için tarayıcı bildirimi gönderilir.
+          </p>
+          <div class="flex flex-wrap gap-2 pt-1">
+            <button onclick="handleNotificationPermission(true)" class="px-3 py-2 rounded-xl bg-turq-500/20 hover:bg-turq-500/30 border border-turq-400/30 text-turq-200 text-xs font-semibold transition">
+              İzin İste / Etkinleştir
+            </button>
+            <button onclick="sendTestNotification()" class="px-3 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/30 text-cyan-200 text-xs font-semibold transition">
+              Örnek Bildirim Gönder
+            </button>
+          </div>
+        </div>
+
+        <!-- Sample Data & Reset -->
+        <div class="p-3.5 rounded-2xl bg-turq-950/80 border border-turq-500/20 space-y-2.5">
+          <span class="text-xs font-bold text-white block">Veri Yedekleme & Örnek Veriler</span>
+          <p class="text-[11px] text-turq-200/75">Tüm verileriniz cihazınızda (localStorage) güvenle saklanır.</p>
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <button onclick="exportDataJson()" class="px-3 py-2 rounded-xl bg-turq-900 hover:bg-turq-800 text-turq-200 text-xs font-semibold flex items-center justify-center gap-1.5 border border-turq-500/25">
+              <i data-lucide="download" class="w-3.5 h-3.5"></i> Yedeği İndir
+            </button>
+            <label class="px-3 py-2 rounded-xl bg-turq-900 hover:bg-turq-800 text-turq-200 text-xs font-semibold flex items-center justify-center gap-1.5 border border-turq-500/25 cursor-pointer">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i> Yedek Yükle
+              <input type="file" accept=".json" onchange="importDataJson(event)" class="hidden" />
+            </label>
+            <button onclick="loadDemoData(true)" class="px-3 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 text-xs font-semibold border border-emerald-400/30">
+              Örnek Veri Yükle
+            </button>
+            <button onclick="clearAllData()" class="px-3 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 text-xs font-semibold border border-rose-400/30">
+              Tümünü Sıfırla
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastContainer" class="fixed top-4 right-4 left-4 sm:left-auto z-50 pointer-events-none flex flex-col gap-2 items-center sm:items-end"></div>
+
+  <!-- APPLICATION JAVASCRIPT -->
+  <script>
+    const STORAGE_KEY = 'turkuaz_finans_state_v1';
+    const NOTIF_LOG_KEY = 'turkuaz_finans_notified_v1';
+
+    const CATEGORIES = {
+      income: [
+        { id: 'maas', label: 'Maaş', icon: 'banknote' },
+        { id: 'ek_gelir', label: 'Ek Gelir / Freelance', icon: 'briefcase' },
+        { id: 'prim', label: 'Prim / İkramiye', icon: 'award' },
+        { id: 'kira_geliri', label: 'Kira / Temettü', icon: 'building-2' },
+        { id: 'diger_gelir', label: 'Diğer Gelir', icon: 'plus-circle' }
+      ],
+      expense: [
+        { id: 'kredi_karti', label: 'Kredi Kartı', icon: 'credit-card' },
+        { id: 'elektrik', label: 'Elektrik Faturası', icon: 'zap' },
+        { id: 'su', label: 'Su Faturası', icon: 'droplets' },
+        { id: 'dogalgaz', label: 'Doğalgaz', icon: 'flame' },
+        { id: 'internet', label: 'İnternet & Mobil', icon: 'wifi' },
+        { id: 'kira', label: 'Kira & Aidat', icon: 'home' },
+        { id: 'market', label: 'Market & Mutfak', icon: 'shopping-bag' },
+        { id: 'diger_gider', label: 'Diğer Gider', icon: 'receipt' }
+      ],
+      investment: [
+        { id: 'altin', label: 'Altın / Kıymetli Maden', icon: 'coins' },
+        { id: 'fon', label: 'Yatırım Fonu / BES', icon: 'pie-chart' },
+        { id: 'kripto', label: 'Kripto Varlık', icon: 'cpu' },
+        { id: 'hisse', label: 'Hisse Senedi', icon: 'candlestick-chart' },
+        { id: 'doviz', label: 'Döviz / Nakit Birikim', icon: 'vault' }
+      ]
+    };
+
+    let state = {
+      salaryDay: 15,
+      cycleOffset: 0, // 0 = current cycle, -1 = previous cycle, +1 = next cycle
+      activeFilter: 'all',
+      modalType: 'expense',
+      selectedCategory: 'kredi_karti',
+      transactions: []
+    };
+
+    // Format Turkish Lira
+    function formatTL(amount) {
+      const num = Number(amount) || 0;
+      return new Intl.NumberFormat('tr-TR', {
+        style: 'currency',
+        currency: 'TRY',
+        minimumFractionDigits: num % 1 === 0 ? 0 : 2,
+        maximumFractionDigits: 2
+      }).format(num);
+    }
+
+    // Calculate Salary Cycle Start & End Dates based on salaryDay and cycleOffset
+    function getCycleInfo(salaryDay = state.salaryDay, offset = state.cycleOffset) {
+      const now = new Date();
+      const todayDay = now.getDate();
+      let baseYear = now.getFullYear();
+      let baseMonth = now.getMonth(); // 0..11
+
+      // If salaryDay > 1 and today is before salaryDay, current cycle started in previous month
+      if (salaryDay > 1 && todayDay < salaryDay) {
+        baseMonth -= 1;
+      }
+
+      baseMonth += offset;
+
+      const startDate = new Date(baseYear, baseMonth, salaryDay, 0, 0, 0);
+      let endDate;
+      if (salaryDay === 1) {
+        // 1st to last day of same month
+        endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0, 23, 59, 59);
+      } else {
+        // e.g. 15th of this month to 14th of next month
+        endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, salaryDay - 1, 23, 59, 59);
+      }
+
+      const cycleKey = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, '0')}-D${salaryDay}`;
+
+      const totalMs = endDate.getTime() - startDate.getTime();
+      const elapsedMs = Math.min(Math.max(now.getTime() - startDate.getTime(), 0), totalMs);
+      const progressPct = Math.round((elapsedMs / totalMs) * 100);
+
+      const msPerDay = 1000 * 60 * 60 * 24;
+      const daysRemaining = Math.max(1, Math.ceil((endDate.getTime() - now.getTime()) / msPerDay));
+
+      return {
+        cycleKey,
+        startDate,
+        endDate,
+        progressPct,
+        daysRemaining
+      };
+    }
+
+    // Compute exact date of a dueDay (1..31) inside a cycle
+    function getDueDateInCycle(dueDay, cycleInfo) {
+      const start = cycleInfo.startDate;
+      const sDay = state.salaryDay;
+      let year = start.getFullYear();
+      let month = start.getMonth();
+
+      if (sDay > 1 && dueDay < sDay) {
+        month += 1;
+      }
+
+      // Clamp day to max days in target month
+      const maxDay = new Date(year, month + 1, 0).getDate();
+      const actualDay = Math.min(dueDay, maxDay);
+      return new Date(year, month, actualDay, 12, 0, 0);
+    }
+
+    function formatShortDate(dateObj) {
+      return dateObj.toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
+    function formatDayMonth(dateObj) {
+      return dateObj.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' });
+    }
+
+    // Load & Save State
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          state.salaryDay = parsed.salaryDay || 15;
+          state.transactions = Array.isArray(parsed.transactions) ? parsed.transactions : [];
+        } else {
+          loadDemoData(false);
+        }
+      } catch (e) {
+        console.error('Veri okuma hatası:', e);
+        loadDemoData(false);
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        salaryDay: state.salaryDay,
+        transactions: state.transactions
+      }));
+    }
+
+    // Ensure recurring items exist in the currently viewed cycle
+    function syncRecurringTransactions(cycleKey) {
+      const recurringTemplates = state.transactions.filter(t => t.isRecurring);
+      const seenSignatures = new Set();
+
+      recurringTemplates.forEach(item => {
+        const sig = `${item.type}_${item.category}_${item.title}_${item.dueDay}`;
+        if (seenSignatures.has(sig)) return;
+        seenSignatures.add(sig);
+
+        const existsInCycle = state.transactions.some(
+          t => t.cycleKey === cycleKey && t.title === item.title && t.type === item.type && t.dueDay === item.dueDay
+        );
+
+        if (!existsInCycle) {
+          state.transactions.push({
+            id: 'tx_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+            cycleKey: cycleKey,
+            type: item.type,
+            category: item.category,
+            title: item.title,
+            amount: item.amount,
+            dueDay: item.dueDay,
+            isPaid: item.type !== 'expense',
+            isRecurring: true,
+            createdAt: new Date().toISOString()
+          });
+        }
+      });
+      saveState();
+    }
+
+    // Load realistic Turkish personal budget demo data
+    function loadDemoData(showFeedback = true) {
+      state.salaryDay = 15;
+      state.cycleOffset = 0;
+      const currentCycle = getCycleInfo(15, 0);
+      const todayDay = new Date().getDate();
+
+      state.transactions = [
+        {
+          id: 'demo_1',
+          cycleKey: currentCycle.cycleKey,
+          type: 'income',
+          category: 'maas',
+          title: 'Aylık Net Maaş',
+          amount: 68500,
+          dueDay: 15,
+          isPaid: true,
+          isRecurring: true
+        },
+        {
+          id: 'demo_2',
+          cycleKey: currentCycle.cycleKey,
+          type: 'income',
+          category: 'ek_gelir',
+          title: 'Freelance Tasarım & Danışmanlık',
+          amount: 12000,
+          dueDay: 22,
+          isPaid: true,
+          isRecurring: false
+        },
+        {
+          id: 'demo_3',
+          cycleKey: currentCycle.cycleKey,
+          type: 'expense',
+          category: 'kira',
+          title: 'Ev Kirası & Site Aidatı',
+          amount: 19500,
+          dueDay: 16,
+          isPaid: true,
+          isRecurring: true
+        },
+        {
+          id: 'demo_4',
+          cycleKey: currentCycle.cycleKey,
+          type: 'expense',
+          category: 'kredi_karti',
+          title: 'Garanti BBVA Kredi Kartı Ekstresi',
+          amount: 11450,
+          dueDay: todayDay, // Set to today so user immediately sees the payment day alert in action
+          isPaid: false,
+          isRecurring: true
+        },
+        {
+          id: 'demo_5',
+          cycleKey: currentCycle.cycleKey,
+          type: 'expense',
+          category: 'elektrik',
+          title: 'CK Boğaziçi Elektrik',
+          amount: 980,
+          dueDay: (todayDay % 28) + 1,
+          isPaid: false,
+          isRecurring: true
+        },
+        {
+          id: 'demo_6',
+          cycleKey: currentCycle.cycleKey,
+          type: 'expense',
+          category: 'internet',
+          title: 'Turknet Ev İnterneti + Mobil Fatura',
+          amount: 890,
+          dueDay: 7,
+          isPaid: false,
+          isRecurring: true
+        },
+        {
+          id: 'demo_7',
+          cycleKey: currentCycle.cycleKey,
+          type: 'expense',
+          category: 'su',
+          title: 'İSKİ Su Faturası',
+          amount: 540,
+          dueDay: 11,
+          isPaid: false,
+          isRecurring: true
+        },
+        {
+          id: 'demo_8',
+          cycleKey: currentCycle.cycleKey,
+          type: 'investment',
+          category: 'altin',
+          title: 'Gram Altın Birikimi',
+          amount: 9500,
+          dueDay: 16,
+          isPaid: true,
+          isRecurring: true
+        },
+        {
+          id: 'demo_9',
+          cycleKey: currentCycle.cycleKey,
+          type: 'investment',
+          category: 'fon',
+          title: 'BIST Teknoloji & Yabancı Fon Sepeti',
+          amount: 6500,
+          dueDay: 18,
+          isPaid: true,
+          isRecurring: true
+        }
+      ];
+
+      saveState();
+      renderApp();
+      if (showFeedback) {
+        closeSettingsModal();
+        showToast('Örnek bütçe verileri yüklendi!', 'success');
+      }
+    }
+
+    // Render Complete UI
+    function renderApp() {
+      const cycleInfo = getCycleInfo(state.salaryDay, state.cycleOffset);
+      syncRecurringTransactions(cycleInfo.cycleKey);
+
+      // Update Header & Cycle Bar
+      document.getElementById('salaryDayBadge').textContent = `${state.salaryDay}'i`;
+      document.getElementById('cycleDateRangeText').textContent =
+        `${formatShortDate(cycleInfo.startDate)} — ${formatShortDate(cycleInfo.endDate)}`;
+
+      const cycleLabelTag = document.getElementById('cycleLabelTag');
+      const btnResetCycle = document.getElementById('btnResetCycle');
+      if (state.cycleOffset === 0) {
+        cycleLabelTag.textContent = `MEVCUT MAAŞ DÖNGÜSÜ (HER AYIN ${state.salaryDay}'İ)`;
+        btnResetCycle.classList.add('hidden');
+      } else if (state.cycleOffset < 0) {
+        cycleLabelTag.textContent = `GEÇMİŞ DÖNGÜ (${Math.abs(state.cycleOffset)} AY ÖNCE)`;
+        btnResetCycle.classList.remove('hidden');
+      } else {
+        cycleLabelTag.textContent = `GELECEK DÖNGÜ (+${state.cycleOffset} AY SONRA)`;
+        btnResetCycle.classList.remove('hidden');
+      }
+
+      document.getElementById('cycleProgressBar').style.width = `${cycleInfo.progressPct}%`;
+      document.getElementById('cycleDaysLeftText').textContent =
+        state.cycleOffset === 0 ? `${cycleInfo.daysRemaining} gün kaldı` : `%${cycleInfo.progressPct}`;
+
+      // Filter transactions for current cycle
+      const cycleTx = state.transactions.filter(t => t.cycleKey === cycleInfo.cycleKey);
+
+      const incomes = cycleTx.filter(t => t.type === 'income');
+      const expenses = cycleTx.filter(t => t.type === 'expense');
+      const investments = cycleTx.filter(t => t.type === 'investment');
+
+      const totalIncome = incomes.reduce((acc, item) => acc + Number(item.amount), 0);
+      const totalExpense = expenses.reduce((acc, item) => acc + Number(item.amount), 0);
+      const unpaidExpense = expenses.filter(e => !e.isPaid).reduce((acc, item) => acc + Number(item.amount), 0);
+      const totalInvestment = investments.reduce((acc, item) => acc + Number(item.amount), 0);
+
+      // CEBİNDE KALAN NET TUTAR = Gelir - (Gider + Yatırım)
+      const netRemaining = totalIncome - totalExpense - totalInvestment;
+      const dailyLimit = netRemaining > 0 ? netRemaining / cycleInfo.daysRemaining : 0;
+
+      // Update Hero Card
+      const netEl = document.getElementById('netRemainingAmount');
+      netEl.textContent = formatTL(netRemaining);
+      netEl.className = `text-3xl sm:text-5xl font-extrabold font-mono tracking-tight ${
+        netRemaining < 0 ? 'text-rose-400' : 'text-white'
+      }`;
+
+      const healthBadge = document.getElementById('netHealthBadge');
+      if (netRemaining > 0 && totalIncome > 0) {
+        healthBadge.textContent = 'Pozitif Nakit Akışı';
+        healthBadge.className = 'px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30';
+      } else if (netRemaining < 0) {
+        healthBadge.textContent = 'Bütçe Aşımı!';
+        healthBadge.className = 'px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-400/30';
+      } else {
+        healthBadge.textContent = 'Dengeli Bütçe';
+        healthBadge.className = 'px-2.5 py-1 rounded-full text-xs font-semibold bg-turq-500/20 text-turq-200 border border-turq-400/30';
+      }
+
+      document.getElementById('dailySafeLimit').textContent = `${formatTL(dailyLimit)} / gün`;
+
+      const totalSavedAndPocket = Math.max(0, totalInvestment + Math.max(0, netRemaining));
+      const savingsPct = totalIncome > 0 ? Math.round((totalSavedAndPocket / totalIncome) * 100) : 0;
+      document.getElementById('savingsRateChip').textContent = `%${savingsPct} Yatırım + Cebinde Kalan`;
+
+      document.getElementById('totalIncomeText').textContent = formatTL(totalIncome);
+      document.getElementById('incomeCountText').textContent = `${incomes.length} gelir kalemi`;
+
+      document.getElementById('totalExpenseText').textContent = formatTL(totalExpense);
+      document.getElementById('expenseStatusSubtext').textContent =
+        unpaidExpense > 0 ? `${formatTL(unpaidExpense)} ödenecek` : 'Tüm faturalar ödendi';
+
+      document.getElementById('totalInvestmentText').textContent = formatTL(totalInvestment);
+      document.getElementById('investmentCountText').textContent = `${investments.length} yatırım işlemi`;
+
+      // Progress Bar Percentages
+      const base = Math.max(totalIncome, totalExpense + totalInvestment, 1);
+      const expPct = Math.min(100, Math.round((totalExpense / base) * 100));
+      const invPct = Math.min(100 - expPct, Math.round((totalInvestment / base) * 100));
+      const remPct = Math.max(0, 100 - expPct - invPct);
+
+      document.getElementById('pctExpense').textContent = `%${expPct}`;
+      document.getElementById('pctInvestment').textContent = `%${invPct}`;
+      document.getElementById('pctRemaining').textContent = `%${remPct}`;
+
+      document.getElementById('barExpense').style.width = `${expPct}%`;
+      document.getElementById('barInvestment').style.width = `${invPct}%`;
+      document.getElementById('barRemaining').style.width = `${remPct}%`;
+
+      // Render Upcoming Bills Strip & Due Alerts
+      renderUpcomingBills(expenses, cycleInfo);
+
+      // Render Filtered Transaction List
+      renderTransactionList(cycleTx, cycleInfo);
+
+      // Update Notification Status UI
+      updateNotificationUI();
+
+      lucide.createIcons();
+    }
+
+    function renderUpcomingBills(expenses, cycleInfo) {
+      const stripEl = document.getElementById('upcomingBillsStrip');
+      const alertContainer = document.getElementById('dueAlertsContainer');
+      const unpaidBadge = document.getElementById('unpaidBillsSummary');
+      const notifBadge = document.getElementById('notifBadge');
+
+      const unpaidList = expenses.filter(e => !e.isPaid);
+      unpaidBadge.textContent = unpaidList.length > 0
+        ? `${unpaidList.length} bekleyen ödeme (${formatTL(unpaidList.reduce((a, b) => a + Number(b.amount), 0))})`
+        : 'Bekleyen fatura yok';
+
+      if (expenses.length === 0) {
+        stripEl.innerHTML = `
+          <div class="w-full py-3 text-center text-xs text-turq-300/60">
+            Bu maaş döngüsünde henüz fatura veya gider eklenmedi.
+          </div>
+        `;
+        alertContainer.classList.add('hidden');
+        notifBadge.classList.add('hidden');
+        return;
+      }
+
+      const now = new Date();
+      const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+
+      const enriched = expenses.map(exp => {
+        const dueDate = getDueDateInCycle(exp.dueDay, cycleInfo);
+        const dueStart = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate()).getTime();
+        const diffDays = Math.round((dueStart - todayStart) / (1000 * 60 * 60 * 24));
+        return { ...exp, dueDate, diffDays };
+      }).sort((a, b) => {
+        if (a.isPaid !== b.isPaid) return a.isPaid ? 1 : -1;
+        return a.dueDate - b.dueDate;
+      });
+
+      // Check urgent bills (due today, tomorrow, or overdue)
+      const urgentBills = enriched.filter(e => !e.isPaid && e.diffDays <= 2);
+      if (urgentBills.length > 0) {
+        notifBadge.textContent = urgentBills.length;
+        notifBadge.classList.remove('hidden');
+
+        alertContainer.classList.remove('hidden');
+        alertContainer.innerHTML = urgentBills.map(bill => {
+          let urgencyText = '';
+          let colorClasses = 'bg-amber-500/15 border-amber-400/35 text-amber-200';
+          if (bill.diffDays < 0) {
+            urgencyText = `${Math.abs(bill.diffDays)} gün gecikti!`;
+            colorClasses = 'bg-rose-500/20 border-rose-400/40 text-rose-200';
+          } else if (bill.diffDays === 0) {
+            urgencyText = 'Bugün Son Ödeme Günü!';
+            colorClasses = 'bg-amber-500/20 border-amber-400/45 text-amber-100';
+          } else {
+            urgencyText = `${bill.diffDays} gün sonra ödenecek`;
+          }
+
+          return `
+            <div class="flex items-center justify-between gap-3 px-4 py-3 rounded-2xl border ${colorClasses}">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <i data-lucide="bell-ring" class="w-4 h-4 shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-xs font-bold truncate">${escapeHtml(bill.title)} — <span class="font-mono">${formatTL(bill.amount)}</span></p>
+                  <p class="text-[11px] opacity-85">Her ayın ${bill.dueDay}'i • <b>${urgencyText}</b></p>
+                </div>
+              </div>
+              <button onclick="togglePaidStatus('${bill.id}')"
+                class="shrink-0 px-3 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs font-bold transition">
+                Ödendi İşaretle
+              </button>
+            </div>
+          `;
+        }).join('');
+      } else {
+        notifBadge.classList.add('hidden');
+        alertContainer.classList.add('hidden');
+      }
+
+      // Render horizontal calendar cards
+      stripEl.innerHTML = enriched.map(exp => {
+        let statusPill = '';
+        let cardBorder = 'border-turq-500/20 bg-turq-950/60';
+        if (exp.isPaid) {
+          statusPill = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300">Ödendi</span>`;
+          cardBorder = 'border-emerald-500/20 bg-turq-950/35 opacity-70';
+        } else if (exp.diffDays < 0) {
+          statusPill = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-rose-500/25 text-rose-300">Gecikti</span>`;
+          cardBorder = 'border-rose-400/40 bg-rose-950/30';
+        } else if (exp.diffDays === 0) {
+          statusPill = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-400 text-turq-950">Bugün!</span>`;
+          cardBorder = 'border-amber-400/50 bg-amber-950/30';
+        } else {
+          statusPill = `<span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-turq-800/80 text-turq-200">${exp.diffDays} gün</span>`;
+        }
+
+        return `
+          <div class="min-w-[165px] sm:min-w-[185px] p-3 rounded-2xl border ${cardBorder} flex flex-col justify-between gap-2 shrink-0">
+            <div class="flex items-center justify-between gap-1">
+              <span class="text-[11px] font-mono font-bold text-turq-300">Ayın ${exp.dueDay}'i</span>
+              ${statusPill}
+            </div>
+            <div>
+              <p class="text-xs font-bold text-white truncate">${escapeHtml(exp.title)}</p>
+              <p class="text-sm font-mono font-extrabold text-turq-200 mt-0.5">${formatTL(exp.amount)}</p>
+            </div>
+            <button onclick="togglePaidStatus('${exp.id}')"
+              class="w-full py-1.5 rounded-lg text-[11px] font-bold transition ${
+                exp.isPaid
+                  ? 'bg-turq-900/60 text-turq-300 hover:bg-turq-800'
+                  : 'bg-turq-500/20 text-turq-200 hover:bg-turq-500/35 border border-turq-400/30'
+              }">
+              ${exp.isPaid ? '✓ Ödendi' : 'Ödendi İşaretle'}
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTransactionList(cycleTx, cycleInfo) {
+      const listEl = document.getElementById('transactionsList');
+      const query = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+
+      // Update active tab styling
+      ['all', 'income', 'expense', 'investment'].forEach(tab => {
+        const btn = document.getElementById(`tab-${tab}`);
+        if (state.activeFilter === tab) {
+          btn.className = 'tab-btn px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-turq-400 text-turq-950 shadow-sm';
+        } else {
+          btn.className = 'tab-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition whitespace-nowrap text-turq-200/80 hover:text-white';
+        }
+      });
+
+      const filtered = cycleTx.filter(tx => {
+        if (state.activeFilter !== 'all' && tx.type !== state.activeFilter) return false;
+        if (query) {
+          const catMeta = getCategoryMeta(tx.type, tx.category);
+          return (
+            tx.title.toLowerCase().includes(query) ||
+            catMeta.label.toLowerCase().includes(query)
+          );
+        }
+        return true;
+      }).sort((a, b) => a.dueDay - b.dueDay);
+
+      if (filtered.length === 0) {
+        listEl.innerHTML = `
+          <div class="glass-card rounded-2xl p-8 text-center space-y-2">
+            <div class="w-11 h-11 rounded-2xl bg-turq-900/80 border border-turq-500/20 mx-auto flex items-center justify-center text-turq-400">
+              <i data-lucide="folder-open" class="w-5 h-5"></i>
+            </div>
+            <p class="text-sm font-bold text-white">Kayıt Bulunamadı</p>
+            <p class="text-xs text-turq-200/70">Bu filtrede görüntülenecek gelir, gider veya yatırım kalemi yok.</p>
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = filtered.map(tx => {
+        const meta = getCategoryMeta(tx.type, tx.category);
+        const dueDate = getDueDateInCycle(tx.dueDay, cycleInfo);
+
+        let iconColors = 'bg-emerald-500/15 text-emerald-300 border-emerald-400/25';
+        let amountPrefix = '+';
+        let amountColor = 'text-emerald-300';
+
+        if (tx.type === 'expense') {
+          iconColors = 'bg-rose-500/15 text-rose-300 border-rose-400/25';
+          amountPrefix = '-';
+          amountColor = 'text-rose-300';
+        } else if (tx.type === 'investment') {
+          iconColors = 'bg-cyan-500/15 text-cyan-300 border-cyan-400/25';
+          amountPrefix = '';
+          amountColor = 'text-cyan-300';
+        }
+
+        return `
+          <div class="glass-card rounded-2xl p-3.5 sm:p-4 flex items-center justify-between gap-3 hover:border-turq-400/35 transition">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-10 h-10 rounded-xl border ${iconColors} flex items-center justify-center shrink-0">
+                <i data-lucide="${meta.icon}" class="w-4 h-4"></i>
+              </div>
+
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <h4 class="text-xs sm:text-sm font-bold text-white truncate">${escapeHtml(tx.title)}</h4>
+                  ${tx.isRecurring ? `<span class="text-[10px] px-1.5 py-0.5 rounded bg-turq-900/90 text-turq-300 border border-turq-500/25">Her Ay</span>` : ''}
+                </div>
+                <div class="flex items-center gap-2 text-[11px] text-turq-200/70 mt-0.5 flex-wrap">
+                  <span>${meta.label}</span>
+                  <span>•</span>
+                  <span class="font-mono text-turq-300">Her ayın ${tx.dueDay}'i (${formatDayMonth(dueDate)})</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2.5 shrink-0">
+              <div class="text-right">
+                <p class="text-xs sm:text-sm font-mono font-extrabold ${amountColor}">
+                  ${amountPrefix}${formatTL(tx.amount)}
+                </p>
+                ${
+                  tx.type === 'expense'
+                    ? `<button onclick="togglePaidStatus('${tx.id}')" class="mt-0.5 text-[10px] font-bold px-2 py-0.5 rounded-md transition ${
+                        tx.isPaid
+                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-400/30'
+                          : 'bg-amber-500/20 text-amber-300 border border-amber-400/30'
+                      }">
+                        ${tx.isPaid ? '✓ Ödendi' : 'Bekliyor'}
+                      </button>`
+                    : `<span class="text-[10px] text-turq-300/60">${tx.type === 'income' ? 'Gelir' : 'Yatırım'}</span>`
+                }
+              </div>
+
+              <div class="flex flex-col sm:flex-row items-center gap-1">
+                <button onclick="openEditTransactionModal('${tx.id}')" title="Düzenle"
+                  class="p-1.5 rounded-lg text-turq-300/70 hover:text-white hover:bg-turq-800/60 transition">
+                  <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                </button>
+                <button onclick="deleteTransaction('${tx.id}')" title="Sil"
+                  class="p-1.5 rounded-lg text-rose-300/70 hover:text-rose-300 hover:bg-rose-950/60 transition">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function getCategoryMeta(type, catId) {
+      const list = CATEGORIES[type] || [];
+      return list.find(c => c.id === catId) || list[0] || { id: 'other', label: 'Diğer', icon: 'circle-dot' };
+    }
+
+    function switchCategoryFilter(filter) {
+      state.activeFilter = filter;
+      renderApp();
+    }
+
+    function shiftCycle(delta) {
+      state.cycleOffset += delta;
+      renderApp();
+    }
+
+    function resetToCurrentCycle() {
+      state.cycleOffset = 0;
+      renderApp();
+    }
+
+    function togglePaidStatus(id) {
+      const item = state.transactions.find(t => t.id === id);
+      if (!item) return;
+      item.isPaid = !item.isPaid;
+      saveState();
+      renderApp();
+      showToast(item.isPaid ? `"${item.title}" ödendi olarak işaretlendi.` : `"${item.title}" bekliyor olarak güncellendi.`, 'info');
+    }
+
+    function deleteTransaction(id) {
+      const idx = state.transactions.findIndex(t => t.id === id);
+      if (idx === -1) return;
+      const removed = state.transactions[idx];
+      state.transactions.splice(idx, 1);
+      saveState();
+      renderApp();
+      showToast(`"${removed.title}" silindi.`, 'info');
+    }
+
+    // Modal Operations: Add / Edit Transaction
+    function populateDaySelectors() {
+      const dayOptions = Array.from({ length: 31 }, (_, i) => {
+        const d = i + 1;
+        return `<option value="${d}">Her ayın ${d}. günü</option>`;
+      }).join('');
+      document.getElementById('txDueDay').innerHTML = dayOptions;
+      document.getElementById('salaryDaySelect').innerHTML = dayOptions;
+    }
+
+    function setModalType(type) {
+      state.modalType = type;
+      const types = ['income', 'expense', 'investment'];
+      types.forEach(t => {
+        const btn = document.getElementById(`typeBtn-${t}`);
+        if (t === type) {
+          btn.className = 'py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 bg-turq-400 text-turq-950 shadow';
+        } else {
+          btn.className = 'py-2 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 text-turq-200/75 hover:text-white';
+        }
+      });
+
+      const list = CATEGORIES[type] || [];
+      if (!list.some(c => c.id === state.selectedCategory)) {
+        state.selectedCategory = list[0].id;
+      }
+
+      renderCategoryPresets();
+
+      const dayLabel = document.getElementById('dayFieldLabel');
+      const paidWrapper = document.getElementById('paidToggleWrapper');
+      if (type === 'expense') {
+        dayLabel.textContent = 'Son Ödeme Günü (Ayın Kaçı?)';
+        paidWrapper.classList.remove('hidden');
+      } else if (type === 'income') {
+        dayLabel.textContent = 'Gelir Yatma Günü (Ayın Kaçı?)';
+        paidWrapper.classList.add('hidden');
+      } else {
+        dayLabel.textContent = 'Yatırım / Alım Günü';
+        paidWrapper.classList.add('hidden');
+      }
+      lucide.createIcons();
+    }
+
+    function renderCategoryPresets() {
+      const container = document.getElementById('categoryPresets');
+      const list = CATEGORIES[state.modalType] || [];
+      container.innerHTML = list.map(cat => {
+        const active = cat.id === state.selectedCategory;
+        return `
+          <button type="button" onclick="selectCategoryPreset('${cat.id}', '${cat.label}')"
+            class="p-2.5 rounded-xl border text-left transition flex flex-col gap-1 ${
+              active
+                ? 'bg-turq-500/25 border-turq-400 text-white'
+                : 'bg-turq-950/70 border-turq-500/20 text-turq-200/75 hover:border-turq-400/40'
+            }">
+            <i data-lucide="${cat.icon}" class="w-4 h-4 ${active ? 'text-turq-300' : 'text-turq-400/70'}"></i>
+            <span class="text-[11px] font-semibold truncate w-full">${cat.label}</span>
+          </button>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    function selectCategoryPreset(catId, defaultLabel) {
+      state.selectedCategory = catId;
+      const titleInput = document.getElementById('txTitle');
+      if (!titleInput.value.trim()) {
+        titleInput.value = defaultLabel;
+      }
+      renderCategoryPresets();
+    }
+
+    function openTransactionModal(defaultType = 'expense') {
+      document.getElementById('editTxId').value = '';
+      document.getElementById('modalTitle').textContent = 'Yeni Bütçe Kalemi Ekle';
+      document.getElementById('txTitle').value = '';
+      document.getElementById('txAmount').value = '';
+      document.getElementById('txDueDay').value = defaultType === 'income' ? state.salaryDay : new Date().getDate();
+      document.getElementById('txIsPaid').checked = defaultType !== 'expense';
+      document.getElementById('txIsRecurring').checked = true;
+
+      setModalType(defaultType);
+      document.getElementById('transactionModal').classList.remove('hidden');
+    }
+
+    function openEditTransactionModal(id) {
+      const tx = state.transactions.find(t => t.id === id);
+      if (!tx) return;
+
+      document.getElementById('editTxId').value = tx.id;
+      document.getElementById('modalTitle').textContent = 'Kaydı Düzenle';
+      state.selectedCategory = tx.category;
+      setModalType(tx.type);
+
+      document.getElementById('txTitle').value = tx.title;
+      document.getElementById('txAmount').value = tx.amount;
+      document.getElementById('txDueDay').value = tx.dueDay;
+      document.getElementById('txIsPaid').checked = Boolean(tx.isPaid);
+      document.getElementById('txIsRecurring').checked = Boolean(tx.isRecurring);
+
+      document.getElementById('transactionModal').classList.remove('hidden');
+    }
+
+    function closeTransactionModal() {
+      document.getElementById('transactionModal').classList.add('hidden');
+    }
+
+    function saveTransaction(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editTxId').value;
+      const title = document.getElementById('txTitle').value.trim();
+      const amount = parseFloat(document.getElementById('txAmount').value);
+      const dueDay = parseInt(document.getElementById('txDueDay').value, 10);
+      const isPaid = state.modalType === 'expense' ? document.getElementById('txIsPaid').checked : true;
+      const isRecurring = document.getElementById('txIsRecurring').checked;
+
+      if (!title || isNaN(amount) || amount <= 0) {
+        showToast('Lütfen geçerli bir açıklama ve tutar girin.', 'error');
+        return;
+      }
+
+      const cycleInfo = getCycleInfo(state.salaryDay, state.cycleOffset);
+
+      if (editId) {
+        const item = state.transactions.find(t => t.id === editId);
+        if (item) {
+          item.type = state.modalType;
+          item.category = state.selectedCategory;
+          item.title = title;
+          item.amount = amount;
+          item.dueDay = dueDay;
+          item.isPaid = isPaid;
+          item.isRecurring = isRecurring;
+        }
+        showToast('Kayıt güncellendi.', 'success');
+      } else {
+        state.transactions.push({
+          id: 'tx_' + Date.now(),
+          cycleKey: cycleInfo.cycleKey,
+          type: state.modalType,
+          category: state.selectedCategory,
+          title,
+          amount,
+          dueDay,
+          isPaid,
+          isRecurring,
+          createdAt: new Date().toISOString()
+        });
+        showToast('Yeni kayıt eklendi!', 'success');
+      }
+
+      saveState();
+      closeTransactionModal();
+      renderApp();
+      checkAndTriggerDueNotifications(false);
+    }
+
+    // Cycle Settings Modal
+    function openCycleModal() {
+      document.getElementById('salaryDaySelect').value = state.salaryDay;
+      updateCyclePreview();
+      document.getElementById('cycleModal').classList.remove('hidden');
+    }
+
+    function closeCycleModal() {
+      document.getElementById('cycleModal').classList.add('hidden');
+    }
+
+    function selectSalaryDayPreset(day) {
+      document.getElementById('salaryDaySelect').value = day;
+      updateCyclePreview();
+    }
+
+    function updateCyclePreview() {
+      const selectedDay = parseInt(document.getElementById('salaryDaySelect').value, 10) || 15;
+      const previewInfo = getCycleInfo(selectedDay, 0);
+      document.getElementById('cycleModalPreview').textContent =
+        `${formatShortDate(previewInfo.startDate)} — ${formatShortDate(previewInfo.endDate)}`;
+    }
+
+    function saveSalaryCycleSettings() {
+      const newDay = parseInt(document.getElementById('salaryDaySelect').value, 10) || 15;
+      const oldCycleKey = getCycleInfo(state.salaryDay, state.cycleOffset).cycleKey;
+      state.salaryDay = newDay;
+      state.cycleOffset = 0;
+      const newCycleKey = getCycleInfo(state.salaryDay, 0).cycleKey;
+
+      // Migrate current cycle transactions to new cycle key so user doesn't lose active entries
+      state.transactions.forEach(t => {
+        if (t.cycleKey === oldCycleKey) {
+          t.cycleKey = newCycleKey;
+        }
+      });
+
+      saveState();
+      closeCycleModal();
+      renderApp();
+      showToast(`Maaş günü her ayın ${newDay}'i olarak ayarlandı!`, 'success');
+    }
+
+    // Settings & Backup Modal
+    function openSettingsModal() {
+      updateNotificationUI();
+      document.getElementById('settingsModal').classList.remove('hidden');
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').classList.add('hidden');
+    }
+
+    function exportDataJson() {
+      const dataStr = JSON.stringify({
+        salaryDay: state.salaryDay,
+        transactions: state.transactions,
+        exportedAt: new Date().toISOString()
+      }, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `turkuaz-butce-yedek-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Bütçe yedeği indirildi.', 'success');
+    }
+
+    function importDataJson(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (Array.isArray(parsed.transactions)) {
+            state.salaryDay = parsed.salaryDay || 15;
+            state.transactions = parsed.transactions;
+            saveState();
+            renderApp();
+            closeSettingsModal();
+            showToast('Yedek başarıyla geri yüklendi!', 'success');
+          } else {
+            showToast('Geçersiz yedek dosyası formatı.', 'error');
+          }
+        } catch (err) {
+          showToast('Dosya okunamadı.', 'error');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function clearAllData() {
+      if (!confirm('Tüm gelir, gider ve yatırım kayıtlarınızı silmek istediğinize emin misiniz?')) return;
+      state.transactions = [];
+      saveState();
+      renderApp();
+      closeSettingsModal();
+      showToast('Tüm veriler sıfırlandı.', 'info');
+    }
+
+    // BROWSER NOTIFICATION API (Ödeme Günü Hatırlatıcı)
+    function updateNotificationUI() {
+      const statusText = document.getElementById('notifStatusText');
+      const settingsStatus = document.getElementById('settingsNotifStatus');
+
+      if (!('Notification' in window)) {
+        if (statusText) statusText.textContent = 'Desteklenmiyor';
+        if (settingsStatus) settingsStatus.textContent = 'Tarayıcı Desteklemiyor';
+        return;
+      }
+
+      if (Notification.permission === 'granted') {
+        if (statusText) statusText.textContent = 'Bildirim Açık';
+        if (settingsStatus) {
+          settingsStatus.textContent = 'Aktif (İzin Verildi)';
+          settingsStatus.className = 'text-[11px] font-mono px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300';
+        }
+      } else if (Notification.permission === 'denied') {
+        if (statusText) statusText.textContent = 'Engellendi';
+        if (settingsStatus) {
+          settingsStatus.textContent = 'Engellendi (Tarayıcı Ayarlarından Açın)';
+          settingsStatus.className = 'text-[11px] font-mono px-2 py-0.5 rounded-md bg-rose-500/20 text-rose-300';
+        }
+      } else {
+        if (statusText) statusText.textContent = 'Bildirimleri Aç';
+        if (settingsStatus) {
+          settingsStatus.textContent = 'İzin Bekleniyor';
+          settingsStatus.className = 'text-[11px] font-mono px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300';
+        }
+      }
+    }
+
+    async function handleNotificationPermission(fromSettings = false) {
+      if (!('Notification' in window)) {
+        showToast('Tarayıcınız masaüstü/mobil bildirimleri desteklemiyor.', 'error');
+        return;
+      }
+
+      if (Notification.permission === 'granted') {
+        checkAndTriggerDueNotifications(true);
+        if (!fromSettings) openSettingsModal();
+        return;
+      }
+
+      const permission = await Notification.requestPermission();
+      updateNotificationUI();
+
+      if (permission === 'granted') {
+        showToast('Ödeme günü bildirimleri etkinleştirildi!', 'success');
+        checkAndTriggerDueNotifications(true);
+      } else {
+        showToast('Bildirim izni verilmedi.', 'info');
+      }
+    }
+
+    function sendBrowserNotification(title, body) {
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+      try {
+        if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+          navigator.serviceWorker.ready.then(reg => {
+            if (reg.showNotification) {
+              reg.showNotification(title, {
+                body,
+                icon: '/icon.svg',
+                badge: '/icon.svg',
+                vibrate: [200, 100, 200]
+              });
+            } else {
+              new Notification(title, { body, icon: '/icon.svg' });
+            }
+          });
+        } else {
+          new Notification(title, { body, icon: '/icon.svg' });
+        }
+      } catch (e) {
+        new Notification(title, { body });
+      }
+    }
+
+    function sendTestNotification() {
+      if (!('Notification' in window)) {
+        showToast('Tarayıcınız Notification API desteklemiyor.', 'error');
+        return;
+      }
+      if (Notification.permission !== 'granted') {
+        handleNotificationPermission(true);
+        return;
+      }
+      sendBrowserNotification(
+        'Turkuaz Finans — Ödeme Hatırlatması',
+        'Bugün ödenecek faturanız bulunuyor: Garanti BBVA Kredi Kartı (₺11.450). Cebinde kalan net tutarınızı korumak için kontrol edin.'
+      );
+      showToast('Test bildirimi gönderildi!', 'success');
+    }
+
+    function checkAndTriggerDueNotifications(forceNotify = false) {
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+      const cycleInfo = getCycleInfo(state.salaryDay, 0);
+      const now = new Date();
+      const todayKey = now.toISOString().slice(0, 10);
+      const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+
+      let notifiedMap = {};
+      try {
+        notifiedMap = JSON.parse(localStorage.getItem(NOTIF_LOG_KEY) || '{}');
+      } catch (e) {
+        notifiedMap = {};
+      }
+
+      const unpaidExpenses = state.transactions.filter(
+        t => t.cycleKey === cycleInfo.cycleKey && t.type === 'expense' && !t.isPaid
+      );
+
+      unpaidExpenses.forEach(bill => {
+        const dueDate = getDueDateInCycle(bill.dueDay, cycleInfo);
+        const dueStart = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate()).getTime();
+        const diffDays = Math.round((dueStart - todayStart) / (1000 * 60 * 60 * 24));
+
+        const logId = `${bill.id}_${todayKey}`;
+        if ((diffDays === 0 || diffDays === 1 || diffDays < 0) && (forceNotify || !notifiedMap[logId])) {
+          const msg = diffDays === 0
+            ? `Bugün son ödeme günü: ${bill.title} (${formatTL(bill.amount)})`
+            : diffDays === 1
+            ? `Yarın ödeme günü: ${bill.title} (${formatTL(bill.amount)})`
+            : `Ödeme gecikti: ${bill.title} (${formatTL(bill.amount)})`;
+
+          sendBrowserNotification('Ödeme Günü Hatırlatması', msg);
+          notifiedMap[logId] = true;
+        }
+      });
+
+      localStorage.setItem(NOTIF_LOG_KEY, JSON.stringify(notifiedMap));
+    }
+
+    // Toast Helper
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      let colors = 'bg-turq-900/95 border-turq-400/40 text-turq-100';
+      if (type === 'success') colors = 'bg-emerald-950/95 border-emerald-400/50 text-emerald-100';
+      if (type === 'error') colors = 'bg-rose-950/95 border-rose-400/50 text-rose-100';
+
+      toast.className = `pointer-events-auto px-4 py-2.5 rounded-2xl border shadow-xl text-xs font-bold flex items-center gap-2 transition-all duration-300 ${colors}`;
+      toast.innerHTML = `<span>${escapeHtml(message)}</span>`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 2800);
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+
+    // Initialize Application
+    window.addEventListener('DOMContentLoaded', () => {
+      populateDaySelectors();
+      loadState();
+      renderApp();
+      setTimeout(() => checkAndTriggerDueNotifications(false), 1200);
+    });
+  </script>
+</body>
+</html>
