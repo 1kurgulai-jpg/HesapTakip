@@ -1,4 +1,4 @@
-const CACHE_NAME = 'butcehesabim-pwa-v3';
+const CACHE_NAME = 'butcehesabim-pwa-v4';
 const ASSETS = [
   './',
   './index.html',

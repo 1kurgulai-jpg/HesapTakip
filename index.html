@@ -212,7 +212,7 @@
               <span class="inline-block w-2 h-2 rounded-full bg-turq-500 animate-pulse"></span>
               <span class="text-[11px] font-extrabold uppercase tracking-wider text-turq-700" id="cycleLabelTag">MEVCUT MAAŞ DÖNGÜSÜ</span>
             </div>
-            <h2 class="text-sm sm:text-base font-extrabold text-slate-900 mt-0.5" id="cycleDateRangeText">15 Eki 2026 - 14 Kas 2026</h2>
+            <h2 class="text-sm sm:text-base font-extrabold text-slate-900 mt-0.5" id="cycleDateRangeText">15 Eki 2026 - 15 Kas 2026</h2>
           </div>
 
           <button onclick="shiftCycle(1)" class="p-2 rounded-xl turq-btn-soft active:scale-95 transition" title="Sonraki Maaş Döngüsü">
@@ -229,7 +229,7 @@
           <div class="flex-1 sm:w-40">
             <div class="flex justify-between text-[11px] font-semibold mb-1">
               <span class="text-slate-500">Döngü İlerlemesi</span>
-              <span class="font-mono font-bold text-turq-700" id="cycleDaysLeftText">27 gün kaldı</span>
+              <span class="font-mono font-bold text-turq-700" id="cycleDaysLeftText">28 gün kaldı</span>
             </div>
             <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
               <div id="cycleProgressBar" class="h-full bg-gradient-to-r from-turq-500 to-sky-500 rounded-full transition-all duration-500" style="width: 15%"></div>
@@ -317,7 +317,7 @@
             <div class="flex items-center justify-between mb-1">
               <span class="text-[11px] sm:text-xs font-extrabold text-slate-600">Yatırımlar</span>
               <div class="w-6 h-6 rounded-lg bg-turq-100 flex items-center justify-center text-turq-600">
-                <i data-lucide="gem" class="w-3.5 h-3.5"></i>
+                <i data-lucide="line-chart" class="w-3.5 h-3.5"></i>
               </div>
             </div>
             <p id="totalInvestmentText" class="text-sm sm:text-lg font-mono font-extrabold text-turq-600 truncate">₺0</p>
@@ -360,7 +360,7 @@
 
       <button onclick="openTransactionModal('investment')"
         class="flex items-center justify-center gap-2 py-3 px-3 rounded-2xl turq-btn-primary font-extrabold text-xs sm:text-sm active:scale-95 transition">
-        <i data-lucide="piggy-bank" class="w-4 h-4 text-white shrink-0"></i>
+        <i data-lucide="line-chart" class="w-4 h-4 text-white shrink-0"></i>
         <span class="truncate">Yatırım Ekle</span>
       </button>
     </section>
@@ -446,7 +446,7 @@
       </button>
 
       <button onclick="switchCategoryFilter('investment')" class="flex flex-col items-center gap-1 py-1 px-3 text-slate-500 hover:text-turq-600 transition">
-        <i data-lucide="gem" class="w-5 h-5"></i>
+        <i data-lucide="line-chart" class="w-5 h-5"></i>
         <span class="text-[10px] font-bold">Yatırım</span>
       </button>
 
@@ -482,7 +482,7 @@
           </button>
           <button type="button" onclick="setModalType('investment', true)" id="typeBtn-investment"
             class="py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
-            <i data-lucide="gem" class="w-3.5 h-3.5"></i> Yatırım
+            <i data-lucide="line-chart" class="w-3.5 h-3.5"></i> Yatırım
           </button>
         </div>
 
@@ -582,7 +582,7 @@
 
       <div class="space-y-4 mt-4">
         <p class="text-xs text-slate-600 leading-relaxed">
-          Maaş gününüzü seçtiğinizde (Örn: <b>Ayın 15'i</b>), finansal döngünüz otomatik olarak <b>15 [Bu Ay] – 14 [Gelecek Ay]</b> şeklinde hesaplanır.
+          Maaş gününüzü seçtiğinizde (Örn: <b>Ayın 15'i</b>), finansal döngünüz tam bir aylık periyot olarak <b>15 [Bu Ay] – 15 [Gelecek Ay]</b> (veya Ayın 1'i için <b>1 [Bu Ay] – 1 [Gelecek Ay]</b>) şeklinde hesaplanır.
         </p>
 
         <!-- Quick Salary Day Presets -->
@@ -609,7 +609,7 @@
         <!-- Custom Cycle Preview Card -->
         <div class="p-3.5 rounded-2xl bg-turq-50 border border-turq-200">
           <span class="text-[11px] uppercase tracking-wider text-turq-700 font-extrabold block">Hesaplanan Aktif Döngü Aralığı</span>
-          <p id="cycleModalPreview" class="text-sm font-extrabold text-slate-900 mt-1">15 Ekim 2026 — 14 Kasım 2026</p>
+          <p id="cycleModalPreview" class="text-sm font-extrabold text-slate-900 mt-1">15 Ekim 2026 — 15 Kasım 2026</p>
         </div>
 
         <div class="flex justify-end gap-2 pt-2">
@@ -712,9 +712,9 @@
       investment: [
         { id: 'altin', label: 'Altın / Kıymetli Maden', icon: 'coins' },
         { id: 'fon', label: 'Yatırım Fonu / BES', icon: 'pie-chart' },
-        { id: 'kripto', label: 'Kripto Varlık', icon: 'cpu' },
+        { id: 'kripto', label: 'Kripto Varlık', icon: 'bar-chart-3' },
         { id: 'hisse', label: 'Hisse Senedi', icon: 'candlestick-chart' },
-        { id: 'doviz', label: 'Döviz / Nakit Birikim', icon: 'vault' }
+        { id: 'doviz', label: 'Döviz / Nakit Birikim', icon: 'landmark' }
       ]
     };
 
@@ -738,7 +738,7 @@
       }).format(num);
     }
 
-    // Calculate Salary Cycle Start & End Dates based on salaryDay and cycleOffset
+    // Calculate Full 1-Month Salary Cycle Start & End Dates (e.g. 15 Ekim - 15 Kasım, or 1 Ekim - 1 Kasım)
     function getCycleInfo(salaryDay = state.salaryDay, offset = state.cycleOffset) {
       const now = new Date();
       const todayDay = now.getDate();
@@ -751,13 +751,14 @@
 
       baseMonth += offset;
 
-      const startDate = new Date(baseYear, baseMonth, salaryDay, 0, 0, 0);
-      let endDate;
-      if (salaryDay === 1) {
-        endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0, 23, 59, 59);
-      } else {
-        endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, salaryDay - 1, 23, 59, 59);
-      }
+      const maxStartDay = new Date(baseYear, baseMonth + 1, 0).getDate();
+      const startDate = new Date(baseYear, baseMonth, Math.min(salaryDay, maxStartDay), 0, 0, 0);
+
+      // Full 1-month period: same day of the next month (clamped to month length if 29/30/31)
+      const targetEndMonth = startDate.getMonth() + 1;
+      const targetEndYear = startDate.getFullYear();
+      const maxEndDay = new Date(targetEndYear, targetEndMonth + 1, 0).getDate();
+      const endDate = new Date(targetEndYear, targetEndMonth, Math.min(salaryDay, maxEndDay), 23, 59, 59);
 
       const cycleKey = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, '0')}-D${salaryDay}`;
 
@@ -1819,7 +1820,7 @@
 
       window.addEventListener('load', () => {
         navigator.serviceWorker
-          .register('./sw.js?v=3', { updateViaCache: 'none' })
+          .register('./sw.js?v=4', { updateViaCache: 'none' })
           .then((reg) => {
             reg.update().catch(() => {});
             if (reg.waiting) {
