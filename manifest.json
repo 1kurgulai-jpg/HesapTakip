@@ -1,15 +1,15 @@
 {
   "name": "BütçeHesabım - Kişisel Bütçe & Maaş Döngüsü Takibi",
   "short_name": "BütçeHesabım",
-  "description": "Maaş döngünüze göre kişisel bütçe, fatura, yatırım ve cebinde kalan net tutar takip uygulaması.",
-  "start_url": "/index.html",
+  "description": "Maaş döngünüze göre kişisel bütçe, fatura hatırlatıcı, yatırım ve cebinde kalan net tutar takip uygulaması.",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#042f2e",
-  "theme_color": "#0d9488",
+  "background_color": "#f8fafc",
+  "theme_color": "#0891b2",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/icon.svg",
+      "src": "./icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

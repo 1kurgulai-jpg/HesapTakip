@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="tr" class="dark">
+<html lang="tr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#0d9488" />
+  <meta name="theme-color" content="#0891b2" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="BütçeHesabım" />
-  <meta name="description" content="BütçeHesabım — Maaş döngünüze göre kişisel bütçe, fatura, yatırım ve cebinde kalan net tutar takip uygulaması." />
+  <meta name="description" content="BütçeHesabım — Maaş döngünüze göre kişisel bütçe, fatura hatırlatıcı, yatırım ve cebinde kalan net tutar takip uygulaması." />
   
   <title>BütçeHesabım — Kişisel Bütçe ve Finans Takip</title>
   <link rel="manifest" href="./manifest.json" />
@@ -26,7 +26,6 @@
 
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
@@ -35,17 +34,17 @@
           },
           colors: {
             turq: {
-              50: '#f0fdfa',
-              100: '#ccfbf1',
-              200: '#99f6e4',
-              300: '#5eead4',
-              400: '#2dd4bf',
-              500: '#14b8a6',
-              600: '#0d9488',
-              700: '#0f766e',
-              800: '#115e59',
-              900: '#134e4a',
-              950: '#042f2e',
+              50: '#ecfeff',
+              100: '#cffafe',
+              200: '#a5f3fc',
+              300: '#67e8f9',
+              400: '#22d3ee',
+              500: '#06b6d4',
+              600: '#0891b2',
+              700: '#0e7490',
+              800: '#155e75',
+              900: '#164e63',
+              950: '#083344',
             }
           }
         }
@@ -67,68 +66,69 @@
     }
 
     html, body {
-      overflow-x: hidden;
+      overflow-x: clip;
       width: 100%;
-      max-width: 100vw;
-      background-color: #032221;
-      color: #f0fdfa;
+      max-width: 100%;
+      background-color: #f8fafc;
+      color: #0f172a;
       scroll-behavior: smooth;
       overscroll-behavior-y: none;
+      touch-action: pan-y;
     }
 
     body {
+      min-height: 100vh;
+      min-height: 100svh;
+      min-height: 100dvh;
       padding-top: max(0.75rem, var(--sat));
-      padding-bottom: calc(6rem + var(--sab));
+      padding-bottom: calc(6.25rem + var(--sab));
       padding-left: var(--sal);
       padding-right: var(--sar);
       background-image: 
-        radial-gradient(at 0% 0%, rgba(20, 184, 166, 0.24) 0px, transparent 52%),
-        radial-gradient(at 100% 10%, rgba(13, 148, 136, 0.22) 0px, transparent 48%),
-        radial-gradient(at 50% 100%, rgba(6, 182, 212, 0.16) 0px, transparent 55%);
+        radial-gradient(at 0% 0%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.10) 0px, transparent 48%),
+        radial-gradient(at 50% 100%, rgba(6, 182, 212, 0.08) 0px, transparent 55%);
       background-attachment: fixed;
     }
 
-    .glass-card {
-      background: linear-gradient(145deg, rgba(15, 62, 60, 0.72) 0%, rgba(7, 42, 41, 0.78) 100%);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(20, 184, 166, 0.24);
-      box-shadow: 0 10px 30px -10px rgba(2, 24, 23, 0.6);
+    .white-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 20px -4px rgba(8, 145, 178, 0.07), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
     }
 
-    .glass-hero {
-      background: linear-gradient(135deg, rgba(13, 148, 136, 0.42) 0%, rgba(15, 118, 110, 0.36) 48%, rgba(4, 47, 46, 0.92) 100%);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(45, 212, 191, 0.38);
-      box-shadow: 0 22px 48px -14px rgba(4, 47, 46, 0.9), inset 0 1px 0 0 rgba(153, 246, 228, 0.22);
+    .hero-turq-card {
+      background: linear-gradient(135deg, #0891b2 0%, #06b6d4 52%, #0284c7 100%);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      box-shadow: 0 20px 40px -15px rgba(8, 145, 178, 0.42), inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
     }
 
     .turq-btn-primary {
-      background: linear-gradient(135deg, #14b8a6 0%, #0d9488 55%, #0891b2 100%);
-      color: #042f2e;
-      box-shadow: 0 8px 22px -6px rgba(20, 184, 166, 0.45);
+      background: linear-gradient(135deg, #06b6d4 0%, #0891b2 60%, #0284c7 100%);
+      color: #ffffff;
+      box-shadow: 0 6px 18px -4px rgba(8, 145, 178, 0.38);
     }
     .turq-btn-primary:hover {
-      filter: brightness(1.07);
+      filter: brightness(1.06);
     }
 
     .turq-btn-soft {
-      background: rgba(20, 184, 166, 0.14);
-      border: 1px solid rgba(45, 212, 191, 0.32);
-      color: #ccfbf1;
+      background: #ecfeff;
+      border: 1px solid #a5f3fc;
+      color: #0e7490;
     }
     .turq-btn-soft:hover {
-      background: rgba(20, 184, 166, 0.24);
-      border-color: rgba(45, 212, 191, 0.5);
+      background: #cffafe;
+      border-color: #67e8f9;
     }
 
     .bottom-nav-safe {
       padding-bottom: max(0.65rem, var(--sab));
-      background: rgba(4, 36, 35, 0.94);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-top: 1px solid rgba(20, 184, 166, 0.26);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-top: 1px solid #cbd5e1;
+      box-shadow: 0 -8px 25px -8px rgba(8, 145, 178, 0.12);
     }
 
     .no-scrollbar::-webkit-scrollbar {
@@ -140,15 +140,15 @@
     }
 
     @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.45); }
-      50% { box-shadow: 0 0 0 9px rgba(20, 184, 166, 0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.45); }
+      50% { box-shadow: 0 0 0 9px rgba(6, 182, 212, 0); }
     }
     .pulse-turq {
       animation: pulseGlow 2.4s infinite;
     }
   </style>
 </head>
-<body class="min-h-screen antialiased selection:bg-turq-500 selection:text-turq-950">
+<body class="antialiased selection:bg-turq-500 selection:text-white">
 
   <!-- Main Container (Responsive & Safe-Area Compatible) -->
   <div class="max-w-4xl mx-auto px-3.5 sm:px-6 pt-1 pb-8 space-y-5">
@@ -156,19 +156,19 @@
     <!-- Top Header -->
     <header class="flex items-center justify-between gap-2 pt-1">
       <div class="flex items-center gap-3 min-w-0">
-        <div class="w-11 h-11 rounded-2xl turq-btn-primary flex items-center justify-center shrink-0 border border-turq-200/40">
-          <i data-lucide="wallet" class="w-5 h-5 text-turq-950 stroke-[2.4]"></i>
+        <div class="w-11 h-11 rounded-2xl turq-btn-primary flex items-center justify-center shrink-0">
+          <i data-lucide="wallet" class="w-5 h-5 text-white stroke-[2.3]"></i>
         </div>
         <div class="min-w-0">
           <div class="flex items-center gap-2">
-            <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white truncate">
-              Bütçe<span class="text-turq-400">Hesabım</span>
+            <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 truncate">
+              Bütçe<span class="text-turq-600">Hesabım</span>
             </h1>
-            <span class="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-turq-500/20 text-turq-200 border border-turq-400/30">
+            <span class="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-turq-50 text-turq-700 border border-turq-200">
               Kişisel Finans
             </span>
           </div>
-          <p class="text-xs text-turq-200/75 truncate">Maaş Döngüsü & Cebinde Kalan Net Takip</p>
+          <p class="text-xs text-slate-500 font-medium truncate">Maaş Döngüsü & Fatura Takip Sistemi</p>
         </div>
       </div>
 
@@ -176,30 +176,30 @@
       <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
         <!-- Notification Button -->
         <button id="btnNotification" onclick="handleNotificationPermission()" title="Ödeme Günü Bildirimleri"
-          class="relative p-2.5 rounded-xl glass-card hover:border-turq-400/50 active:scale-95 transition flex items-center gap-1.5 text-turq-100">
-          <i data-lucide="bell" class="w-4 h-4 text-turq-300" id="notifIcon"></i>
-          <span class="hidden md:inline text-xs font-semibold" id="notifStatusText">Bildirimler</span>
-          <span id="notifBadge" class="hidden absolute -top-1 -right-1 w-4 h-4 rounded-full bg-turq-400 text-turq-950 text-[10px] font-extrabold flex items-center justify-center">0</span>
+          class="relative p-2.5 rounded-xl white-card hover:border-turq-400 active:scale-95 transition flex items-center gap-1.5 text-slate-700">
+          <i data-lucide="bell" class="w-4 h-4 text-turq-600" id="notifIcon"></i>
+          <span class="hidden md:inline text-xs font-bold" id="notifStatusText">Bildirimler</span>
+          <span id="notifBadge" class="hidden absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-white text-[10px] font-extrabold flex items-center justify-center">0</span>
         </button>
 
         <!-- Cycle Settings Button -->
         <button onclick="openCycleModal()" title="Maaş Döngüsü Ayarları"
-          class="p-2.5 rounded-xl glass-card hover:border-turq-400/50 active:scale-95 transition flex items-center gap-1.5 text-turq-100">
-          <i data-lucide="calendar-cog" class="w-4 h-4 text-turq-300"></i>
-          <span class="text-xs font-semibold hidden sm:inline">Maaş Günü:</span>
-          <span class="text-xs font-mono font-bold text-turq-200 bg-turq-600/40 px-2 py-0.5 rounded-md border border-turq-400/35" id="salaryDayBadge">15'i</span>
+          class="p-2.5 rounded-xl white-card hover:border-turq-400 active:scale-95 transition flex items-center gap-1.5 text-slate-700">
+          <i data-lucide="calendar-cog" class="w-4 h-4 text-turq-600"></i>
+          <span class="text-xs font-bold hidden sm:inline">Maaş Günü:</span>
+          <span class="text-xs font-mono font-bold text-turq-700 bg-turq-50 px-2 py-0.5 rounded-md border border-turq-200" id="salaryDayBadge">15'i</span>
         </button>
 
         <!-- Backup / More Menu Button -->
         <button onclick="openSettingsModal()" title="Veri & Bildirim Ayarları"
-          class="p-2.5 rounded-xl glass-card hover:border-turq-400/50 active:scale-95 transition text-turq-100">
-          <i data-lucide="sliders-horizontal" class="w-4 h-4 text-turq-300"></i>
+          class="p-2.5 rounded-xl white-card hover:border-turq-400 active:scale-95 transition text-slate-700">
+          <i data-lucide="sliders-horizontal" class="w-4 h-4 text-turq-600"></i>
         </button>
       </div>
     </header>
 
     <!-- Salary Cycle Bar (Maaş Döngüsü Seçici ve İlerleme) -->
-    <section class="glass-card rounded-2xl p-3.5 sm:p-4">
+    <section class="white-card rounded-2xl p-3.5 sm:p-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <!-- Cycle Navigator -->
         <div class="flex items-center justify-between sm:justify-start gap-2">
@@ -209,33 +209,33 @@
 
           <div class="text-center sm:text-left px-1">
             <div class="flex items-center justify-center sm:justify-start gap-1.5">
-              <span class="inline-block w-2 h-2 rounded-full bg-turq-400 animate-pulse"></span>
-              <span class="text-[11px] font-bold uppercase tracking-wider text-turq-300" id="cycleLabelTag">MEVCUT MAAŞ DÖNGÜSÜ</span>
+              <span class="inline-block w-2 h-2 rounded-full bg-turq-500 animate-pulse"></span>
+              <span class="text-[11px] font-extrabold uppercase tracking-wider text-turq-700" id="cycleLabelTag">MEVCUT MAAŞ DÖNGÜSÜ</span>
             </div>
-            <h2 class="text-sm sm:text-base font-bold text-white mt-0.5" id="cycleDateRangeText">15 Eki 2026 - 14 Kas 2026</h2>
+            <h2 class="text-sm sm:text-base font-extrabold text-slate-900 mt-0.5" id="cycleDateRangeText">15 Eki 2026 - 14 Kas 2026</h2>
           </div>
 
           <button onclick="shiftCycle(1)" class="p-2 rounded-xl turq-btn-soft active:scale-95 transition" title="Sonraki Maaş Döngüsü">
             <i data-lucide="chevron-right" class="w-4 h-4"></i>
           </button>
 
-          <button id="btnResetCycle" onclick="resetToCurrentCycle()" class="hidden ml-1 px-2.5 py-1.5 rounded-xl turq-btn-soft text-xs font-semibold transition">
+          <button id="btnResetCycle" onclick="resetToCurrentCycle()" class="hidden ml-1 px-2.5 py-1.5 rounded-xl turq-btn-soft text-xs font-bold transition">
             Bugüne Dön
           </button>
         </div>
 
         <!-- Cycle Progress & Days Left -->
-        <div class="flex items-center gap-3 bg-turq-950/70 px-3.5 py-2.5 rounded-xl border border-turq-500/25">
+        <div class="flex items-center gap-3 bg-slate-50 px-3.5 py-2.5 rounded-xl border border-slate-200">
           <div class="flex-1 sm:w-40">
-            <div class="flex justify-between text-[11px] font-medium mb-1">
-              <span class="text-turq-200/80">Döngü İlerlemesi</span>
-              <span class="font-mono font-semibold text-turq-300" id="cycleDaysLeftText">27 gün kaldı</span>
+            <div class="flex justify-between text-[11px] font-semibold mb-1">
+              <span class="text-slate-500">Döngü İlerlemesi</span>
+              <span class="font-mono font-bold text-turq-700" id="cycleDaysLeftText">27 gün kaldı</span>
             </div>
-            <div class="w-full h-1.5 bg-turq-900/90 rounded-full overflow-hidden">
-              <div id="cycleProgressBar" class="h-full bg-gradient-to-r from-turq-500 via-turq-400 to-cyan-300 rounded-full transition-all duration-500" style="width: 15%"></div>
+            <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+              <div id="cycleProgressBar" class="h-full bg-gradient-to-r from-turq-500 to-sky-500 rounded-full transition-all duration-500" style="width: 15%"></div>
             </div>
           </div>
-          <button onclick="openCycleModal()" class="text-xs text-turq-300 hover:text-white font-semibold px-2.5 py-1 rounded-lg bg-turq-500/15 border border-turq-400/25 transition shrink-0">
+          <button onclick="openCycleModal()" class="text-xs text-turq-700 hover:bg-turq-100 font-bold px-2.5 py-1.5 rounded-lg bg-turq-50 border border-turq-200 transition shrink-0">
             Tarih Ayarla
           </button>
         </div>
@@ -246,133 +246,138 @@
     <div id="dueAlertsContainer" class="hidden space-y-2"></div>
 
     <!-- HERO: AY SONU ÖZET PANELİ (CEBİNDE KALAN NET TUTAR) -->
-    <section class="glass-hero rounded-3xl p-5 sm:p-6 relative overflow-hidden">
-      <!-- Decorative Turquoise Glows -->
-      <div class="-right-10 -top-10 w-48 h-48 bg-turq-400/20 rounded-full blur-2xl pointer-events-none absolute"></div>
-      <div class="-left-10 -bottom-10 w-48 h-48 bg-cyan-400/15 rounded-full blur-2xl pointer-events-none absolute"></div>
+    <section class="hero-turq-card rounded-3xl p-5 sm:p-6 relative overflow-hidden text-white">
+      <!-- Decorative Subtle Highlights -->
+      <div class="-right-12 -top-12 w-52 h-52 bg-white/15 rounded-full blur-2xl pointer-events-none absolute"></div>
+      <div class="-left-12 -bottom-12 w-52 h-52 bg-sky-300/20 rounded-full blur-2xl pointer-events-none absolute"></div>
 
       <div class="relative z-10">
         <!-- Top Row: Title & Safe Daily Limit -->
         <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
           <div class="flex items-center gap-2">
-            <span class="px-3 py-1 rounded-full text-xs font-bold bg-turq-500/25 text-turq-100 border border-turq-300/35 flex items-center gap-1.5">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-turq-300"></i>
+            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-white/20 text-white border border-white/30 flex items-center gap-1.5 backdrop-blur-sm">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-white"></i>
               Ay Sonu Özet Paneli
             </span>
-            <span id="netHealthBadge" class="px-2.5 py-1 rounded-full text-xs font-semibold bg-turq-500/20 text-turq-200 border border-turq-400/30">
-              Başlamaya Hazır
+            <span id="netHealthBadge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-white/90 text-turq-800 shadow-sm">
+              Sıfırdan Başlangıç
             </span>
           </div>
 
           <div class="text-right">
-            <span class="text-[11px] text-turq-200/80 block">Günlük Harcanabilir Limit</span>
-            <span class="text-xs sm:text-sm font-mono font-bold text-turq-200" id="dailySafeLimit">₺0 / gün</span>
+            <span class="text-[11px] text-white/85 font-medium block">Günlük Harcanabilir Limit</span>
+            <span class="text-xs sm:text-sm font-mono font-extrabold text-white" id="dailySafeLimit">₺0 / gün</span>
           </div>
         </div>
 
         <!-- Main Net Remaining Display (Cebinde Kalan Net Tutar) -->
         <div class="my-3 sm:my-4">
-          <p class="text-xs sm:text-sm font-semibold uppercase tracking-wider text-turq-100/90 flex items-center gap-1.5 flex-wrap">
+          <p class="text-xs sm:text-sm font-bold uppercase tracking-wider text-white/90 flex items-center gap-1.5 flex-wrap">
             Cebinde Kalan Net Tutar
-            <span class="text-[11px] font-normal lowercase text-turq-200/75">(toplam gelir − giderler − yatırımlar)</span>
+            <span class="text-[11px] font-medium lowercase text-white/80" id="netFormulaHint">(gelir − ödenen giderler − yatırımlar)</span>
           </p>
           <div class="flex items-baseline gap-3 mt-1 flex-wrap">
-            <h2 id="netRemainingAmount" class="text-3xl sm:text-5xl font-extrabold font-mono tracking-tight text-white">
+            <h2 id="netRemainingAmount" class="text-3xl sm:text-5xl font-extrabold font-mono tracking-tight text-white drop-shadow-sm">
               ₺0
             </h2>
-            <span id="savingsRateChip" class="text-xs font-mono font-semibold px-2.5 py-1 rounded-lg bg-turq-950/75 text-turq-200 border border-turq-400/30">
-              %0 Tasarruf + Kalan
+            <span id="projectedEndChip" class="text-xs font-mono font-bold px-3 py-1 rounded-xl bg-white/20 text-white border border-white/30 backdrop-blur-sm">
+              Tüm Faturalar Ödenince Net: ₺0
             </span>
           </div>
         </div>
 
-        <!-- 3 Pillar Summary Cards Inside Hero (All Harmonized Turquoise/Cyan Tones) -->
+        <!-- 3 Pillar Summary Cards Inside Hero (Crisp White Cards with Color-Coded Amounts) -->
         <div class="grid grid-cols-3 gap-2 sm:gap-3.5 mt-5">
-          <!-- Toplam Gelir -->
-          <div onclick="switchCategoryFilter('income')" class="cursor-pointer bg-turq-950/70 hover:bg-turq-900/75 border border-turq-400/35 rounded-2xl p-3 sm:p-3.5 transition">
+          <!-- Toplam Gelir (YEŞİL) -->
+          <div onclick="switchCategoryFilter('income')" class="cursor-pointer bg-white hover:bg-emerald-50/40 rounded-2xl p-3 sm:p-3.5 transition shadow-md border border-white">
             <div class="flex items-center justify-between mb-1">
-              <span class="text-[11px] sm:text-xs font-semibold text-turq-200">Toplam Gelir</span>
-              <div class="w-6 h-6 rounded-lg bg-turq-500/25 flex items-center justify-center text-turq-300">
+              <span class="text-[11px] sm:text-xs font-extrabold text-slate-600">Toplam Gelir</span>
+              <div class="w-6 h-6 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600">
                 <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
               </div>
             </div>
-            <p id="totalIncomeText" class="text-sm sm:text-lg font-mono font-bold text-white truncate">₺0</p>
-            <p id="incomeCountText" class="text-[10px] sm:text-[11px] text-turq-300/75 mt-0.5 truncate">0 kalem</p>
+            <p id="totalIncomeText" class="text-sm sm:text-lg font-mono font-extrabold text-emerald-600 truncate">+₺0</p>
+            <p id="incomeCountText" class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-0.5 truncate">0 gelir kalemi</p>
           </div>
 
-          <!-- Giderler & Faturalar -->
-          <div onclick="switchCategoryFilter('expense')" class="cursor-pointer bg-turq-950/70 hover:bg-turq-900/75 border border-cyan-400/35 rounded-2xl p-3 sm:p-3.5 transition">
+          <!-- Giderler & Faturalar (KIRMIZI) -->
+          <div onclick="switchCategoryFilter('expense')" class="cursor-pointer bg-white hover:bg-rose-50/40 rounded-2xl p-3 sm:p-3.5 transition shadow-md border border-white">
             <div class="flex items-center justify-between mb-1">
-              <span class="text-[11px] sm:text-xs font-semibold text-cyan-200">Gider & Fatura</span>
-              <div class="w-6 h-6 rounded-lg bg-cyan-500/25 flex items-center justify-center text-cyan-300">
+              <span class="text-[11px] sm:text-xs font-extrabold text-slate-600">Gider & Fatura</span>
+              <div class="w-6 h-6 rounded-lg bg-rose-100 flex items-center justify-center text-rose-600">
                 <i data-lucide="receipt" class="w-3.5 h-3.5"></i>
               </div>
             </div>
-            <p id="totalExpenseText" class="text-sm sm:text-lg font-mono font-bold text-white truncate">₺0</p>
-            <p id="expenseStatusSubtext" class="text-[10px] sm:text-[11px] text-cyan-300/80 mt-0.5 truncate">₺0 bekliyor</p>
+            <p id="totalExpenseText" class="text-sm sm:text-lg font-mono font-extrabold text-rose-600 truncate">-₺0</p>
+            <p id="expenseStatusSubtext" class="text-[10px] sm:text-[11px] text-rose-600/85 font-semibold mt-0.5 truncate">₺0 ödendi • ₺0 bekliyor</p>
           </div>
 
-          <!-- Yatırımlar -->
-          <div onclick="switchCategoryFilter('investment')" class="cursor-pointer bg-turq-950/70 hover:bg-turq-900/75 border border-teal-300/35 rounded-2xl p-3 sm:p-3.5 transition">
+          <!-- Yatırımlar (TURKUAZ MAVİ) -->
+          <div onclick="switchCategoryFilter('investment')" class="cursor-pointer bg-white hover:bg-turq-50/40 rounded-2xl p-3 sm:p-3.5 transition shadow-md border border-white">
             <div class="flex items-center justify-between mb-1">
-              <span class="text-[11px] sm:text-xs font-semibold text-teal-200">Yatırımlar</span>
-              <div class="w-6 h-6 rounded-lg bg-teal-400/25 flex items-center justify-center text-teal-200">
+              <span class="text-[11px] sm:text-xs font-extrabold text-slate-600">Yatırımlar</span>
+              <div class="w-6 h-6 rounded-lg bg-turq-100 flex items-center justify-center text-turq-600">
                 <i data-lucide="gem" class="w-3.5 h-3.5"></i>
               </div>
             </div>
-            <p id="totalInvestmentText" class="text-sm sm:text-lg font-mono font-bold text-white truncate">₺0</p>
-            <p id="investmentCountText" class="text-[10px] sm:text-[11px] text-teal-300/75 mt-0.5 truncate">0 işlem</p>
+            <p id="totalInvestmentText" class="text-sm sm:text-lg font-mono font-extrabold text-turq-600 truncate">₺0</p>
+            <p id="investmentCountText" class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-0.5 truncate">0 yatırım işlemi</p>
           </div>
         </div>
 
         <!-- Visual Allocation Bar (Gider / Yatırım / Cebinde Kalan) -->
-        <div class="mt-4 pt-3.5 border-t border-turq-400/25">
-          <div class="flex justify-between items-center text-[11px] text-turq-100/85 mb-1.5 flex-wrap gap-1">
+        <div class="mt-4 pt-3.5 border-t border-white/25">
+          <div class="flex justify-between items-center text-[11px] text-white font-semibold mb-1.5 flex-wrap gap-1">
             <span>Maaş Dağılım Oranı</span>
             <div class="flex items-center gap-3">
-              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-cyan-500"></span>Gider <b id="pctExpense" class="font-mono">%0</b></span>
-              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-turq-300"></span>Yatırım <b id="pctInvestment" class="font-mono">%0</b></span>
-              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-turq-500"></span>Kalan <b id="pctRemaining" class="font-mono">%0</b></span>
+              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-400 border border-white"></span>Gider <b id="pctExpense" class="font-mono">%0</b></span>
+              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-sky-200 border border-white"></span>Yatırım <b id="pctInvestment" class="font-mono">%0</b></span>
+              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-300 border border-white"></span>Kalan <b id="pctRemaining" class="font-mono">%0</b></span>
             </div>
           </div>
-          <div class="w-full h-2.5 bg-turq-950/90 rounded-full overflow-hidden flex gap-0.5 p-0.5 border border-turq-400/25">
-            <div id="barExpense" class="h-full bg-cyan-500 rounded-l-full transition-all duration-500" style="width: 0%"></div>
-            <div id="barInvestment" class="h-full bg-turq-300 transition-all duration-500" style="width: 0%"></div>
-            <div id="barRemaining" class="h-full bg-turq-500 rounded-r-full transition-all duration-500" style="width: 0%"></div>
+          <div class="w-full h-2.5 bg-black/20 rounded-full overflow-hidden flex gap-0.5 p-0.5">
+            <div id="barExpense" class="h-full bg-rose-400 rounded-l-full transition-all duration-500" style="width: 0%"></div>
+            <div id="barInvestment" class="h-full bg-sky-200 transition-all duration-500" style="width: 0%"></div>
+            <div id="barRemaining" class="h-full bg-emerald-300 rounded-r-full transition-all duration-500" style="width: 0%"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Quick Add Buttons (3 Primary Actions in Cohesive Turquoise Palette) -->
+    <!-- Quick Add Buttons (3 Primary Actions) -->
     <section class="grid grid-cols-3 gap-2.5 sm:gap-3">
       <button onclick="openTransactionModal('income')"
-        class="flex items-center justify-center gap-2 py-3 px-3 rounded-2xl turq-btn-primary font-extrabold text-xs sm:text-sm active:scale-95 transition">
-        <i data-lucide="plus-circle" class="w-4 h-4 shrink-0"></i>
+        class="flex items-center justify-center gap-2 py-3 px-3 rounded-2xl bg-white hover:bg-emerald-50 border border-emerald-200 text-emerald-700 font-extrabold text-xs sm:text-sm active:scale-95 transition shadow-sm">
+        <i data-lucide="plus-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i>
         <span class="truncate">Gelir Ekle</span>
       </button>
 
       <button onclick="openTransactionModal('expense')"
-        class="flex items-center justify-center gap-2 py-3 px-3 rounded-2xl turq-btn-soft font-bold text-xs sm:text-sm active:scale-95 transition">
-        <i data-lucide="calendar-clock" class="w-4 h-4 text-turq-300 shrink-0"></i>
+        class="flex items-center justify-center gap-2 py-3 px-3 rounded-2xl bg-white hover:bg-rose-50 border border-rose-200 text-rose-700 font-extrabold text-xs sm:text-sm active:scale-95 transition shadow-sm">
+        <i data-lucide="calendar-clock" class="w-4 h-4 text-rose-600 shrink-0"></i>
         <span class="truncate">Fatura / Gider</span>
       </button>
 
       <button onclick="openTransactionModal('investment')"
-        class="flex items-center justify-center gap-2 py-3 px-3 rounded-2xl turq-btn-soft font-bold text-xs sm:text-sm active:scale-95 transition">
-        <i data-lucide="piggy-bank" class="w-4 h-4 text-cyan-300 shrink-0"></i>
+        class="flex items-center justify-center gap-2 py-3 px-3 rounded-2xl turq-btn-primary font-extrabold text-xs sm:text-sm active:scale-95 transition">
+        <i data-lucide="piggy-bank" class="w-4 h-4 text-white shrink-0"></i>
         <span class="truncate">Yatırım Ekle</span>
       </button>
     </section>
 
-    <!-- Payment Day Calendar Strip (Ödeme Günleri Takvimi) -->
-    <section class="glass-card rounded-2xl p-4">
-      <div class="flex items-center justify-between mb-3">
+    <!-- Payment Day Calendar Strip (Ödeme Günleri & Hatırlatıcı Takvimi) -->
+    <section class="white-card rounded-2xl p-4">
+      <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
         <div class="flex items-center gap-2">
-          <i data-lucide="bell-ring" class="w-4 h-4 text-turq-300"></i>
-          <h3 class="text-xs sm:text-sm font-bold text-white">Fatura & Ödeme Günü Takvimi</h3>
+          <div class="w-7 h-7 rounded-lg bg-turq-50 border border-turq-200 flex items-center justify-center text-turq-600">
+            <i data-lucide="bell-ring" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-xs sm:text-sm font-extrabold text-slate-900">Fatura & Ödeme Günü Takvimi</h3>
+            <p class="text-[11px] text-slate-500">Ödeme gününden 1 gün önce bildirim almak için <b>Hatırlat</b>'a dokunun</p>
+          </div>
         </div>
-        <span id="unpaidBillsSummary" class="text-[11px] font-semibold text-turq-200 bg-turq-500/20 px-2.5 py-0.5 rounded-full border border-turq-400/30">
+        <span id="unpaidBillsSummary" class="text-[11px] font-bold text-rose-700 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-200">
           0 bekleyen ödeme
         </span>
       </div>
@@ -387,7 +392,7 @@
     <section class="space-y-3">
       <!-- Filter Tabs + Search -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar bg-turq-950/85 p-1.5 rounded-2xl border border-turq-500/25">
+        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm">
           <button onclick="switchCategoryFilter('all')" id="tab-all"
             class="tab-btn px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap">
             Tümü
@@ -408,9 +413,9 @@
 
         <!-- Search Input -->
         <div class="relative">
-          <i data-lucide="search" class="w-3.5 h-3.5 text-turq-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+          <i data-lucide="search" class="w-3.5 h-3.5 text-turq-600 absolute left-3 top-1/2 -translate-y-1/2"></i>
           <input type="text" id="searchInput" oninput="renderApp()" placeholder="Kalem veya kategori ara..."
-            class="w-full sm:w-56 pl-8 pr-3 py-2 rounded-xl bg-turq-950/85 border border-turq-500/30 text-xs text-white placeholder-turq-300/45 focus:outline-none focus:border-turq-400" />
+            class="w-full sm:w-56 pl-8 pr-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-turq-500 shadow-sm" />
         </div>
       </div>
 
@@ -425,39 +430,39 @@
   <!-- Mobile Bottom Navigation Bar (PWA Safe-Area) -->
   <nav class="fixed bottom-0 left-0 right-0 z-40 bottom-nav-safe">
     <div class="max-w-md mx-auto px-3 pt-2 flex items-center justify-around">
-      <button onclick="switchCategoryFilter('all'); window.scrollTo({top:0, behavior:'smooth'})" class="flex flex-col items-center gap-1 py-1 px-3 text-turq-300 hover:text-white transition">
+      <button onclick="switchCategoryFilter('all'); window.scrollTo({top:0, behavior:'smooth'})" class="flex flex-col items-center gap-1 py-1 px-3 text-turq-600 hover:text-turq-700 transition">
         <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
-        <span class="text-[10px] font-semibold">Özet</span>
+        <span class="text-[10px] font-bold">Özet</span>
       </button>
 
-      <button onclick="switchCategoryFilter('expense')" class="flex flex-col items-center gap-1 py-1 px-3 text-turq-200/80 hover:text-white transition">
+      <button onclick="switchCategoryFilter('expense')" class="flex flex-col items-center gap-1 py-1 px-3 text-slate-500 hover:text-turq-600 transition">
         <i data-lucide="receipt" class="w-5 h-5"></i>
-        <span class="text-[10px] font-semibold">Faturalar</span>
+        <span class="text-[10px] font-bold">Faturalar</span>
       </button>
 
       <!-- Center Floating Add Button -->
-      <button onclick="openTransactionModal('expense')" class="-mt-5 w-13 h-13 p-3.5 rounded-2xl turq-btn-primary border border-turq-200/40 active:scale-95 transition flex items-center justify-center pulse-turq" aria-label="Yeni Kayıt Ekle">
+      <button onclick="openTransactionModal('expense')" class="-mt-5 w-13 h-13 p-3.5 rounded-2xl turq-btn-primary border-2 border-white active:scale-95 transition flex items-center justify-center pulse-turq" aria-label="Yeni Kayıt Ekle">
         <i data-lucide="plus" class="w-6 h-6 stroke-[2.8]"></i>
       </button>
 
-      <button onclick="switchCategoryFilter('investment')" class="flex flex-col items-center gap-1 py-1 px-3 text-turq-200/80 hover:text-white transition">
+      <button onclick="switchCategoryFilter('investment')" class="flex flex-col items-center gap-1 py-1 px-3 text-slate-500 hover:text-turq-600 transition">
         <i data-lucide="gem" class="w-5 h-5"></i>
-        <span class="text-[10px] font-semibold">Yatırım</span>
+        <span class="text-[10px] font-bold">Yatırım</span>
       </button>
 
-      <button onclick="openCycleModal()" class="flex flex-col items-center gap-1 py-1 px-3 text-turq-200/80 hover:text-white transition">
+      <button onclick="openCycleModal()" class="flex flex-col items-center gap-1 py-1 px-3 text-slate-500 hover:text-turq-600 transition">
         <i data-lucide="calendar-range" class="w-5 h-5"></i>
-        <span class="text-[10px] font-semibold">Döngü</span>
+        <span class="text-[10px] font-bold">Döngü</span>
       </button>
     </div>
   </nav>
 
   <!-- MODAL 1: ADD / EDIT TRANSACTION (GELİR / GİDER & FATURA / YATIRIM) -->
-  <div id="transactionModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div class="w-full max-w-lg bg-[#052e2b] border-t sm:border border-turq-400/35 rounded-t-3xl sm:rounded-3xl p-5 sm:p-6 shadow-2xl max-h-[92vh] overflow-y-auto">
-      <div class="flex items-center justify-between pb-3 border-b border-turq-500/25">
-        <h3 id="modalTitle" class="text-base sm:text-lg font-extrabold text-white">Yeni Kayıt Ekle</h3>
-        <button onclick="closeTransactionModal()" class="p-1.5 rounded-xl bg-turq-900/80 text-turq-300 hover:text-white">
+  <div id="transactionModal" class="fixed inset-0 z-50 hidden bg-slate-900/50 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="w-full max-w-lg bg-white border-t sm:border border-slate-200 rounded-t-3xl sm:rounded-3xl p-5 sm:p-6 shadow-2xl max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 id="modalTitle" class="text-base sm:text-lg font-extrabold text-slate-900">Yeni Kayıt Ekle</h3>
+        <button onclick="closeTransactionModal()" class="p-1.5 rounded-xl bg-slate-100 text-slate-500 hover:text-slate-800">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
@@ -466,16 +471,16 @@
         <input type="hidden" id="editTxId" value="" />
 
         <!-- Type Switcher -->
-        <div class="grid grid-cols-3 gap-2 bg-turq-950 p-1.5 rounded-2xl border border-turq-500/25">
-          <button type="button" onclick="setModalType('income')" id="typeBtn-income"
+        <div class="grid grid-cols-3 gap-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200">
+          <button type="button" onclick="setModalType('income', true)" id="typeBtn-income"
             class="py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
             <i data-lucide="trending-up" class="w-3.5 h-3.5"></i> Gelir
           </button>
-          <button type="button" onclick="setModalType('expense')" id="typeBtn-expense"
+          <button type="button" onclick="setModalType('expense', true)" id="typeBtn-expense"
             class="py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
             <i data-lucide="receipt" class="w-3.5 h-3.5"></i> Gider/Fatura
           </button>
-          <button type="button" onclick="setModalType('investment')" id="typeBtn-investment"
+          <button type="button" onclick="setModalType('investment', true)" id="typeBtn-investment"
             class="py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
             <i data-lucide="gem" class="w-3.5 h-3.5"></i> Yatırım
           </button>
@@ -483,7 +488,9 @@
 
         <!-- Category Preset Pills -->
         <div>
-          <label class="block text-xs font-semibold text-turq-200/85 mb-1.5">Kategori Seçin</label>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="block text-xs font-bold text-slate-700">Kategori Seçin (Seçtiğinizde başlık otomatik güncellenir)</label>
+          </div>
           <div id="categoryPresets" class="grid grid-cols-3 sm:grid-cols-4 gap-2">
             <!-- Populated dynamically -->
           </div>
@@ -492,57 +499,67 @@
         <!-- Title & Amount -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label for="txTitle" class="block text-xs font-semibold text-turq-200/85 mb-1">Açıklama / Kalem Adı</label>
-            <input type="text" id="txTitle" required placeholder="Örn: Maaş, Elektrik, Gram Altın"
-              class="w-full px-3.5 py-2.5 rounded-xl bg-turq-950/90 border border-turq-500/35 text-sm text-white placeholder-turq-300/40 focus:outline-none focus:border-turq-400" />
+            <label for="txTitle" class="block text-xs font-bold text-slate-700 mb-1">Açıklama / Kalem Adı</label>
+            <div class="relative">
+              <input type="text" id="txTitle" required placeholder="Kategori seçin veya yazın..."
+                class="w-full pl-3.5 pr-9 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-turq-500 transition" />
+              <button type="button" onclick="clearTitleInput()" title="Başlığı Temizle"
+                class="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition">
+                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
           </div>
 
           <div>
-            <label for="txAmount" class="block text-xs font-semibold text-turq-200/85 mb-1">Tutar (₺)</label>
+            <label for="txAmount" class="block text-xs font-bold text-slate-700 mb-1">Tutar (₺)</label>
             <input type="number" id="txAmount" required min="0.01" step="0.01" placeholder="0.00"
-              class="w-full px-3.5 py-2.5 rounded-xl bg-turq-950/90 border border-turq-500/35 text-sm font-mono font-bold text-white placeholder-turq-300/40 focus:outline-none focus:border-turq-400" />
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-mono font-bold text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-turq-500 transition" />
           </div>
         </div>
 
-        <!-- Payment Day & Status -->
-        <div id="billScheduleFields" class="bg-turq-950/70 p-3.5 rounded-2xl border border-turq-500/25 space-y-3">
+        <!-- Payment Day, Reminder & Status -->
+        <div id="billScheduleFields" class="bg-turq-50/60 p-3.5 rounded-2xl border border-turq-200 space-y-3">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label for="txDueDay" class="block text-xs font-semibold text-turq-200 mb-1">
-                <span id="dayFieldLabel">Ödeme Günü (Ayın Kaçı?)</span>
+              <label for="txDueDay" class="block text-xs font-bold text-slate-700 mb-1">
+                <span id="dayFieldLabel">Son Ödeme Günü (Ayın Kaçı?)</span>
               </label>
               <div class="relative">
                 <select id="txDueDay"
-                  class="w-full px-3.5 py-2.5 rounded-xl bg-turq-900/90 border border-turq-500/35 text-sm font-mono text-white focus:outline-none focus:border-turq-400">
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-sm font-mono font-bold text-slate-900 focus:outline-none focus:border-turq-500">
                   <!-- 1..31 options generated via JS -->
                 </select>
               </div>
-              <p class="text-[11px] text-turq-300/75 mt-1">Ödeme günü geldiğinde tarayıcı bildirimi alırsınız.</p>
+              <p class="text-[11px] text-slate-500 mt-1">1 gün önceden hatırlatma bildirimi kurabilirsiniz.</p>
             </div>
 
-            <div id="paidToggleWrapper">
-              <label class="block text-xs font-semibold text-turq-200 mb-1">Ödeme Durumu</label>
-              <label class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-turq-900/90 border border-turq-500/35 cursor-pointer">
-                <span class="text-xs font-semibold text-turq-100">Ödendi olarak işaretle</span>
-                <input type="checkbox" id="txIsPaid" class="w-4 h-4 accent-turq-400 rounded" />
+            <div id="paidToggleWrapper" class="space-y-2">
+              <label class="block text-xs font-bold text-slate-700 mb-1">Durum & Hatırlatıcı</label>
+              <label class="flex items-center justify-between px-3 py-2 rounded-xl bg-white border border-slate-300 cursor-pointer">
+                <span class="text-xs font-bold text-slate-700">Ödendi (Bütçeden Düş)</span>
+                <input type="checkbox" id="txIsPaid" class="w-4 h-4 accent-turq-600 rounded" />
+              </label>
+              <label class="flex items-center justify-between px-3 py-2 rounded-xl bg-white border border-turq-300 cursor-pointer">
+                <span class="text-xs font-bold text-turq-700">1 Gün Önce Hatırlat</span>
+                <input type="checkbox" id="txReminderSet" checked class="w-4 h-4 accent-turq-600 rounded" />
               </label>
             </div>
           </div>
 
           <!-- Recurring checkbox -->
           <label class="flex items-center gap-2.5 pt-1 cursor-pointer">
-            <input type="checkbox" id="txIsRecurring" class="w-4 h-4 accent-turq-400 rounded" />
-            <span class="text-xs text-turq-200">Sabit kalem (Yeni maaş döngülerine otomatik aktarılsın)</span>
+            <input type="checkbox" id="txIsRecurring" class="w-4 h-4 accent-turq-600 rounded" />
+            <span class="text-xs font-semibold text-slate-700">Sabit kalem (Yeni maaş döngülerine otomatik aktarılsın)</span>
           </label>
         </div>
 
         <div class="flex items-center justify-end gap-2.5 pt-2">
           <button type="button" onclick="closeTransactionModal()"
-            class="px-4 py-2.5 rounded-xl turq-btn-soft text-xs font-semibold transition">
+            class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
             İptal
           </button>
           <button type="submit"
-            class="px-5 py-2.5 rounded-xl turq-btn-primary text-xs sm:text-sm font-extrabold active:scale-95 transition">
+            class="px-6 py-2.5 rounded-xl turq-btn-primary text-xs sm:text-sm font-extrabold active:scale-95 transition">
             Kaydet
           </button>
         </div>
@@ -551,26 +568,26 @@
   </div>
 
   <!-- MODAL 2: SALARY CYCLE SETTINGS (MAAŞ DÖNGÜSÜ VE TARİH AYARI) -->
-  <div id="cycleModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div class="w-full max-w-md bg-[#052e2b] border-t sm:border border-turq-400/35 rounded-t-3xl sm:rounded-3xl p-5 sm:p-6 shadow-2xl">
-      <div class="flex items-center justify-between pb-3 border-b border-turq-500/25">
+  <div id="cycleModal" class="fixed inset-0 z-50 hidden bg-slate-900/50 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="w-full max-w-md bg-white border-t sm:border border-slate-200 rounded-t-3xl sm:rounded-3xl p-5 sm:p-6 shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
         <div class="flex items-center gap-2">
-          <i data-lucide="calendar-cog" class="w-5 h-5 text-turq-400"></i>
-          <h3 class="text-base sm:text-lg font-extrabold text-white">Maaş Döngüsü & Tarih Ayarı</h3>
+          <i data-lucide="calendar-cog" class="w-5 h-5 text-turq-600"></i>
+          <h3 class="text-base sm:text-lg font-extrabold text-slate-900">Maaş Döngüsü & Tarih Ayarı</h3>
         </div>
-        <button onclick="closeCycleModal()" class="p-1.5 rounded-xl bg-turq-900/80 text-turq-300 hover:text-white">
+        <button onclick="closeCycleModal()" class="p-1.5 rounded-xl bg-slate-100 text-slate-500 hover:text-slate-800">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
       <div class="space-y-4 mt-4">
-        <p class="text-xs text-turq-200/85 leading-relaxed">
+        <p class="text-xs text-slate-600 leading-relaxed">
           Maaş gününüzü seçtiğinizde (Örn: <b>Ayın 15'i</b>), finansal döngünüz otomatik olarak <b>15 [Bu Ay] – 14 [Gelecek Ay]</b> şeklinde hesaplanır.
         </p>
 
         <!-- Quick Salary Day Presets -->
         <div>
-          <label class="block text-xs font-semibold text-turq-200 mb-2">Hızlı Maaş Günü Seçimi</label>
+          <label class="block text-xs font-bold text-slate-700 mb-2">Hızlı Maaş Günü Seçimi</label>
           <div class="grid grid-cols-5 gap-2">
             <button type="button" onclick="selectSalaryDayPreset(1)" class="py-2 rounded-xl turq-btn-soft text-xs font-mono font-bold">1'i</button>
             <button type="button" onclick="selectSalaryDayPreset(5)" class="py-2 rounded-xl turq-btn-soft text-xs font-mono font-bold">5'i</button>
@@ -582,21 +599,21 @@
 
         <!-- Exact Day Selector (1-31) -->
         <div>
-          <label for="salaryDaySelect" class="block text-xs font-semibold text-turq-200 mb-1">Maaş Yatma Günü (1 - 31)</label>
+          <label for="salaryDaySelect" class="block text-xs font-bold text-slate-700 mb-1">Maaş Yatma Günü (1 - 31)</label>
           <select id="salaryDaySelect" onchange="updateCyclePreview()"
-            class="w-full px-3.5 py-2.5 rounded-xl bg-turq-950 border border-turq-500/35 text-sm font-mono font-bold text-white focus:outline-none focus:border-turq-400">
+            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-mono font-bold text-slate-900 focus:outline-none focus:border-turq-500">
             <!-- Populated via JS -->
           </select>
         </div>
 
         <!-- Custom Cycle Preview Card -->
-        <div class="p-3.5 rounded-2xl bg-turq-950/90 border border-turq-400/30">
-          <span class="text-[11px] uppercase tracking-wider text-turq-400 font-bold block">Hesaplanan Aktif Döngü Aralığı</span>
-          <p id="cycleModalPreview" class="text-sm font-bold text-white mt-1">15 Ekim 2026 — 14 Kasım 2026</p>
+        <div class="p-3.5 rounded-2xl bg-turq-50 border border-turq-200">
+          <span class="text-[11px] uppercase tracking-wider text-turq-700 font-extrabold block">Hesaplanan Aktif Döngü Aralığı</span>
+          <p id="cycleModalPreview" class="text-sm font-extrabold text-slate-900 mt-1">15 Ekim 2026 — 14 Kasım 2026</p>
         </div>
 
         <div class="flex justify-end gap-2 pt-2">
-          <button type="button" onclick="closeCycleModal()" class="px-4 py-2.5 rounded-xl turq-btn-soft text-xs font-semibold">Vazgeç</button>
+          <button type="button" onclick="closeCycleModal()" class="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold">Vazgeç</button>
           <button type="button" onclick="saveSalaryCycleSettings()" class="px-5 py-2.5 rounded-xl turq-btn-primary text-xs sm:text-sm font-extrabold">Döngüyü Uygula</button>
         </div>
       </div>
@@ -604,54 +621,54 @@
   </div>
 
   <!-- MODAL 3: SETTINGS, NOTIFICATIONS & DATA BACKUP -->
-  <div id="settingsModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div class="w-full max-w-md bg-[#052e2b] border-t sm:border border-turq-400/35 rounded-t-3xl sm:rounded-3xl p-5 sm:p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-      <div class="flex items-center justify-between pb-3 border-b border-turq-500/25">
+  <div id="settingsModal" class="fixed inset-0 z-50 hidden bg-slate-900/50 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="w-full max-w-md bg-white border-t sm:border border-slate-200 rounded-t-3xl sm:rounded-3xl p-5 sm:p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
         <div class="flex items-center gap-2">
-          <i data-lucide="sliders-horizontal" class="w-5 h-5 text-turq-400"></i>
-          <h3 class="text-base sm:text-lg font-extrabold text-white">BütçeHesabım Ayarları</h3>
+          <i data-lucide="sliders-horizontal" class="w-5 h-5 text-turq-600"></i>
+          <h3 class="text-base sm:text-lg font-extrabold text-slate-900">BütçeHesabım Ayarları</h3>
         </div>
-        <button onclick="closeSettingsModal()" class="p-1.5 rounded-xl bg-turq-900/80 text-turq-300 hover:text-white">
+        <button onclick="closeSettingsModal()" class="p-1.5 rounded-xl bg-slate-100 text-slate-500 hover:text-slate-800">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
       <div class="space-y-4 mt-4">
         <!-- Browser Notification Test & Permission -->
-        <div class="p-3.5 rounded-2xl bg-turq-950/85 border border-turq-500/25 space-y-2.5">
+        <div class="p-3.5 rounded-2xl bg-turq-50/70 border border-turq-200 space-y-2.5">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-white flex items-center gap-1.5">
-              <i data-lucide="bell-ring" class="w-4 h-4 text-turq-400"></i>
+            <span class="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
+              <i data-lucide="bell-ring" class="w-4 h-4 text-turq-600"></i>
               Tarayıcı Ödeme Bildirimleri
             </span>
-            <span id="settingsNotifStatus" class="text-[11px] font-mono px-2 py-0.5 rounded-md bg-turq-900 text-turq-300">Kontrol ediliyor</span>
+            <span id="settingsNotifStatus" class="text-[11px] font-mono font-bold px-2 py-0.5 rounded-md bg-white text-turq-700 border border-turq-200">Kontrol ediliyor</span>
           </div>
-          <p class="text-[11px] text-turq-200/80">
-            Ödeme günü gelen veya yaklaşan faturalarınız için tarayıcı bildirimi gönderilir.
+          <p class="text-[11px] text-slate-600">
+            Hatırlatıcı kurduğunuz faturalar için son ödeme tarihinden 1 gün önce ve ödeme gününde tarayıcı bildirimi gönderilir.
           </p>
           <div class="flex flex-wrap gap-2 pt-1">
             <button onclick="handleNotificationPermission(true)" class="px-3 py-2 rounded-xl turq-btn-primary text-xs font-extrabold transition">
               İzin İste / Etkinleştir
             </button>
-            <button onclick="sendTestNotification()" class="px-3 py-2 rounded-xl turq-btn-soft text-xs font-semibold transition">
+            <button onclick="sendTestNotification()" class="px-3 py-2 rounded-xl turq-btn-soft text-xs font-bold transition">
               Bildirimi Test Et
             </button>
           </div>
         </div>
 
         <!-- Data Backup & Reset -->
-        <div class="p-3.5 rounded-2xl bg-turq-950/85 border border-turq-500/25 space-y-2.5">
-          <span class="text-xs font-bold text-white block">Veri Yedekleme & Sıfırlama</span>
-          <p class="text-[11px] text-turq-200/80">Tüm verileriniz tarayıcınızda (localStorage) tamamen size özel olarak saklanır.</p>
+        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+          <span class="text-xs font-extrabold text-slate-900 block">Veri Yedekleme & Sıfırlama</span>
+          <p class="text-[11px] text-slate-600">Tüm verileriniz tarayıcınızda (localStorage) tamamen size özel olarak saklanır.</p>
           <div class="grid grid-cols-2 gap-2 pt-1">
-            <button onclick="exportDataJson()" class="px-3 py-2 rounded-xl turq-btn-soft text-xs font-semibold flex items-center justify-center gap-1.5">
+            <button onclick="exportDataJson()" class="px-3 py-2 rounded-xl turq-btn-soft text-xs font-bold flex items-center justify-center gap-1.5">
               <i data-lucide="download" class="w-3.5 h-3.5"></i> Yedeği İndir
             </button>
-            <label class="px-3 py-2 rounded-xl turq-btn-soft text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer">
+            <label class="px-3 py-2 rounded-xl turq-btn-soft text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer">
               <i data-lucide="upload" class="w-3.5 h-3.5"></i> Yedek Yükle
               <input type="file" accept=".json" onchange="importDataJson(event)" class="hidden" />
             </label>
-            <button onclick="clearAllData()" class="col-span-2 px-3 py-2 rounded-xl bg-turq-900/90 hover:bg-turq-800 text-turq-200 text-xs font-semibold border border-turq-500/30">
+            <button onclick="clearAllData()" class="col-span-2 px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold border border-rose-200 transition">
               Tüm Kayıtları Sıfırla (0'dan Başla)
             </button>
           </div>
@@ -668,7 +685,7 @@
     const STORAGE_KEY = 'butcehesabim_state_v2';
     const NOTIF_LOG_KEY = 'butcehesabim_notified_v2';
 
-    // Remove legacy demo storage keys if present so the user starts 100% clean from zero
+    // Remove legacy demo storage keys if present
     try {
       localStorage.removeItem('turkuaz_finans_state_v1');
       localStorage.removeItem('turkuaz_finans_notified_v1');
@@ -683,11 +700,11 @@
         { id: 'diger_gelir', label: 'Diğer Gelir', icon: 'plus-circle' }
       ],
       expense: [
-        { id: 'kredi_karti', label: 'Kredi Kartı', icon: 'credit-card' },
         { id: 'elektrik', label: 'Elektrik Faturası', icon: 'zap' },
         { id: 'su', label: 'Su Faturası', icon: 'droplets' },
-        { id: 'dogalgaz', label: 'Doğalgaz', icon: 'flame' },
+        { id: 'dogalgaz', label: 'Doğalgaz Faturası', icon: 'flame' },
         { id: 'internet', label: 'İnternet & Mobil', icon: 'wifi' },
+        { id: 'kredi_karti', label: 'Kredi Kartı Borcu', icon: 'credit-card' },
         { id: 'kira', label: 'Kira & Aidat', icon: 'home' },
         { id: 'market', label: 'Market & Mutfak', icon: 'shopping-bag' },
         { id: 'diger_gider', label: 'Diğer Gider', icon: 'receipt' }
@@ -701,13 +718,12 @@
       ]
     };
 
-    // Clean Zero-State Initialization (No arbitrary demo figures)
     let state = {
       salaryDay: 15,
       cycleOffset: 0,
       activeFilter: 'all',
       modalType: 'expense',
-      selectedCategory: 'kredi_karti',
+      selectedCategory: 'elektrik',
       transactions: []
     };
 
@@ -784,7 +800,7 @@
       return dateObj.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' });
     }
 
-    // Load & Save State (Starts completely empty at 0 if no user data saved yet)
+    // Load & Save State
     function loadState() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
@@ -834,6 +850,7 @@
             amount: item.amount,
             dueDay: item.dueDay,
             isPaid: item.type !== 'expense',
+            reminderSet: Boolean(item.reminderSet),
             isRecurring: true,
             createdAt: new Date().toISOString()
           });
@@ -878,47 +895,54 @@
 
       const totalIncome = incomes.reduce((acc, item) => acc + Number(item.amount), 0);
       const totalExpense = expenses.reduce((acc, item) => acc + Number(item.amount), 0);
+      const paidExpense = expenses.filter(e => e.isPaid).reduce((acc, item) => acc + Number(item.amount), 0);
       const unpaidExpense = expenses.filter(e => !e.isPaid).reduce((acc, item) => acc + Number(item.amount), 0);
       const totalInvestment = investments.reduce((acc, item) => acc + Number(item.amount), 0);
 
-      // CEBİNDE KALAN NET TUTAR = Gelir - (Gider + Yatırım)
-      const netRemaining = totalIncome - totalExpense - totalInvestment;
-      const dailyLimit = netRemaining > 0 ? netRemaining / cycleInfo.daysRemaining : 0;
+      // Clicking "Ödendi" immediately deducts that bill from Cebinde Kalan Net Tutar!
+      const netRemainingNow = totalIncome - paidExpense - totalInvestment;
+      // End of month net after all pending bills are also paid:
+      const projectedEndNet = totalIncome - totalExpense - totalInvestment;
+      const dailyLimit = netRemainingNow > 0 ? netRemainingNow / cycleInfo.daysRemaining : 0;
 
       // Update Hero Card
       const netEl = document.getElementById('netRemainingAmount');
-      netEl.textContent = formatTL(netRemaining);
-      netEl.className = `text-3xl sm:text-5xl font-extrabold font-mono tracking-tight ${
-        netRemaining < 0 ? 'text-cyan-200' : 'text-white'
+      netEl.textContent = formatTL(netRemainingNow);
+      netEl.className = `text-3xl sm:text-5xl font-extrabold font-mono tracking-tight drop-shadow-sm ${
+        netRemainingNow < 0 ? 'text-rose-200' : 'text-white'
       }`;
 
       const healthBadge = document.getElementById('netHealthBadge');
       if (cycleTx.length === 0) {
         healthBadge.textContent = 'Sıfırdan Başlangıç';
-        healthBadge.className = 'px-2.5 py-1 rounded-full text-xs font-semibold bg-turq-500/20 text-turq-200 border border-turq-400/30';
-      } else if (netRemaining > 0) {
-        healthBadge.textContent = 'Pozitif Nakit Akışı';
-        healthBadge.className = 'px-2.5 py-1 rounded-full text-xs font-semibold bg-turq-400/25 text-turq-100 border border-turq-300/40';
-      } else if (netRemaining < 0) {
-        healthBadge.textContent = 'Gider Fazlası';
-        healthBadge.className = 'px-2.5 py-1 rounded-full text-xs font-semibold bg-cyan-500/25 text-cyan-200 border border-cyan-400/40';
+        healthBadge.className = 'px-2.5 py-1 rounded-full text-xs font-extrabold bg-white/95 text-turq-800 shadow-sm';
+      } else if (netRemainingNow > 0) {
+        healthBadge.textContent = 'Pozitif Bütçe';
+        healthBadge.className = 'px-2.5 py-1 rounded-full text-xs font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-sm';
+      } else if (netRemainingNow < 0) {
+        healthBadge.textContent = 'Eksi Bakiye / Aşım';
+        healthBadge.className = 'px-2.5 py-1 rounded-full text-xs font-extrabold bg-rose-50 text-rose-700 border border-rose-200 shadow-sm';
       } else {
         healthBadge.textContent = 'Dengeli Bütçe';
-        healthBadge.className = 'px-2.5 py-1 rounded-full text-xs font-semibold bg-turq-500/20 text-turq-200 border border-turq-400/30';
+        healthBadge.className = 'px-2.5 py-1 rounded-full text-xs font-extrabold bg-white/95 text-turq-800 shadow-sm';
       }
 
       document.getElementById('dailySafeLimit').textContent = `${formatTL(dailyLimit)} / gün`;
 
-      const totalSavedAndPocket = Math.max(0, totalInvestment + Math.max(0, netRemaining));
-      const savingsPct = totalIncome > 0 ? Math.round((totalSavedAndPocket / totalIncome) * 100) : 0;
-      document.getElementById('savingsRateChip').textContent = `%${savingsPct} Tasarruf + Kalan`;
+      const projectedEl = document.getElementById('projectedEndChip');
+      if (unpaidExpense > 0) {
+        projectedEl.textContent = `Bekleyen (${formatTL(unpaidExpense)}) Düşülünce Ay Sonu: ${formatTL(projectedEndNet)}`;
+      } else {
+        projectedEl.textContent = `Tüm Faturalar Ödendi • Net: ${formatTL(netRemainingNow)}`;
+      }
 
-      document.getElementById('totalIncomeText').textContent = formatTL(totalIncome);
+      // Color-coded 3 summary cards
+      document.getElementById('totalIncomeText').textContent = `+${formatTL(totalIncome)}`;
       document.getElementById('incomeCountText').textContent = `${incomes.length} gelir kalemi`;
 
-      document.getElementById('totalExpenseText').textContent = formatTL(totalExpense);
+      document.getElementById('totalExpenseText').textContent = `-${formatTL(totalExpense)}`;
       document.getElementById('expenseStatusSubtext').textContent =
-        unpaidExpense > 0 ? `${formatTL(unpaidExpense)} bekliyor` : `${expenses.length} fatura/gider`;
+        `${formatTL(paidExpense)} ödendi • ${formatTL(unpaidExpense)} bekliyor`;
 
       document.getElementById('totalInvestmentText').textContent = formatTL(totalInvestment);
       document.getElementById('investmentCountText').textContent = `${investments.length} yatırım işlemi`;
@@ -971,9 +995,9 @@
 
       if (expenses.length === 0) {
         stripEl.innerHTML = `
-          <div class="w-full py-3.5 px-4 rounded-xl bg-turq-950/50 border border-turq-500/20 flex items-center justify-between gap-3">
-            <span class="text-xs text-turq-200/75">Henüz fatura veya gider eklemediniz. Ödeme günü takibi için ilk faturanızı ekleyin.</span>
-            <button onclick="openTransactionModal('expense')" class="shrink-0 px-3 py-1.5 rounded-xl turq-btn-soft text-xs font-bold">
+          <div class="w-full py-3.5 px-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3">
+            <span class="text-xs text-slate-600 font-medium">Henüz fatura veya gider eklemediniz. Ödeme günü ve hatırlatıcı için ilk faturanızı ekleyin.</span>
+            <button onclick="openTransactionModal('expense')" class="shrink-0 px-3 py-1.5 rounded-xl turq-btn-soft text-xs font-extrabold">
               + Fatura Ekle
             </button>
           </div>
@@ -1008,23 +1032,38 @@
             urgencyText = `${Math.abs(bill.diffDays)} gün gecikti!`;
           } else if (bill.diffDays === 0) {
             urgencyText = 'Bugün Son Ödeme Günü!';
+          } else if (bill.diffDays === 1) {
+            urgencyText = 'Yarın Son Ödeme Günü! (1 Gün Kaldı)';
           } else {
             urgencyText = `${bill.diffDays} gün sonra ödenecek`;
           }
 
           return `
-            <div class="flex items-center justify-between gap-3 px-4 py-3 rounded-2xl border bg-turq-600/25 border-turq-400/45 text-turq-100">
+            <div class="flex items-center justify-between gap-3 px-4 py-3 rounded-2xl border bg-rose-50 border-rose-200 text-rose-900 shadow-sm">
               <div class="flex items-center gap-2.5 min-w-0">
-                <i data-lucide="bell-ring" class="w-4 h-4 text-turq-300 shrink-0"></i>
+                <div class="w-8 h-8 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0">
+                  <i data-lucide="bell-ring" class="w-4 h-4"></i>
+                </div>
                 <div class="min-w-0">
-                  <p class="text-xs font-bold truncate">${escapeHtml(bill.title)} — <span class="font-mono">${formatTL(bill.amount)}</span></p>
-                  <p class="text-[11px] text-turq-200/90">Her ayın ${bill.dueDay}'i • <b>${urgencyText}</b></p>
+                  <p class="text-xs font-extrabold truncate">${escapeHtml(bill.title)} — <span class="font-mono text-rose-600">-${formatTL(bill.amount)}</span></p>
+                  <p class="text-[11px] text-rose-700">Her ayın ${bill.dueDay}'i • <b>${urgencyText}</b></p>
                 </div>
               </div>
-              <button onclick="togglePaidStatus('${bill.id}')"
-                class="shrink-0 px-3 py-1.5 rounded-xl turq-btn-primary text-xs font-extrabold transition">
-                Ödendi İşaretle
-              </button>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button onclick="toggleReminder('${bill.id}')"
+                  class="px-2.5 py-1.5 rounded-xl text-xs font-bold border transition flex items-center gap-1 ${
+                    bill.reminderSet
+                      ? 'bg-turq-600 text-white border-turq-600'
+                      : 'bg-white text-turq-700 border-turq-300 hover:bg-turq-50'
+                  }">
+                  <i data-lucide="bell" class="w-3.5 h-3.5"></i>
+                  <span>${bill.reminderSet ? 'Hatırlatıcı Açık' : 'Hatırlat'}</span>
+                </button>
+                <button onclick="togglePaidStatus('${bill.id}')"
+                  class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold transition shadow-sm">
+                  ✓ Ödendi
+                </button>
+              </div>
             </div>
           `;
         }).join('');
@@ -1035,38 +1074,49 @@
 
       stripEl.innerHTML = enriched.map(exp => {
         let statusPill = '';
-        let cardBorder = 'border-turq-500/25 bg-turq-950/65';
+        let cardBorder = 'border-slate-200 bg-slate-50/70';
         if (exp.isPaid) {
-          statusPill = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-turq-500/25 text-turq-200">Ödendi</span>`;
-          cardBorder = 'border-turq-500/20 bg-turq-950/40 opacity-75';
+          statusPill = `<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-700">Ödendi</span>`;
+          cardBorder = 'border-emerald-200 bg-emerald-50/30 opacity-80';
         } else if (exp.diffDays < 0) {
-          statusPill = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-cyan-500/30 text-cyan-200">Gecikti</span>`;
-          cardBorder = 'border-cyan-400/45 bg-turq-900/50';
+          statusPill = `<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-rose-100 text-rose-700">Gecikti</span>`;
+          cardBorder = 'border-rose-300 bg-rose-50/40';
         } else if (exp.diffDays === 0) {
-          statusPill = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-turq-400 text-turq-950">Bugün!</span>`;
-          cardBorder = 'border-turq-400/60 bg-turq-900/60';
+          statusPill = `<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-rose-600 text-white">Bugün!</span>`;
+          cardBorder = 'border-rose-400 bg-rose-50/60';
         } else {
-          statusPill = `<span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-turq-800/80 text-turq-200">${exp.diffDays} gün</span>`;
+          statusPill = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-turq-100 text-turq-800">${exp.diffDays} gün</span>`;
         }
 
         return `
-          <div class="min-w-[165px] sm:min-w-[185px] p-3 rounded-2xl border ${cardBorder} flex flex-col justify-between gap-2 shrink-0">
+          <div class="min-w-[195px] sm:min-w-[210px] p-3.5 rounded-2xl border ${cardBorder} flex flex-col justify-between gap-2.5 shrink-0">
             <div class="flex items-center justify-between gap-1">
-              <span class="text-[11px] font-mono font-bold text-turq-300">Ayın ${exp.dueDay}'i</span>
+              <span class="text-[11px] font-mono font-bold text-slate-600">Ayın ${exp.dueDay}'i</span>
               ${statusPill}
             </div>
             <div>
-              <p class="text-xs font-bold text-white truncate">${escapeHtml(exp.title)}</p>
-              <p class="text-sm font-mono font-extrabold text-turq-200 mt-0.5">${formatTL(exp.amount)}</p>
+              <p class="text-xs font-extrabold text-slate-900 truncate">${escapeHtml(exp.title)}</p>
+              <p class="text-sm font-mono font-extrabold text-rose-600 mt-0.5">-${formatTL(exp.amount)}</p>
             </div>
-            <button onclick="togglePaidStatus('${exp.id}')"
-              class="w-full py-1.5 rounded-lg text-[11px] font-bold transition ${
-                exp.isPaid
-                  ? 'bg-turq-900/70 text-turq-300 hover:bg-turq-800'
-                  : 'turq-btn-soft'
-              }">
-              ${exp.isPaid ? '✓ Ödendi' : 'Ödendi İşaretle'}
-            </button>
+            <div class="grid grid-cols-2 gap-1.5 pt-0.5">
+              <button onclick="toggleReminder('${exp.id}')"
+                class="py-1.5 px-2 rounded-lg text-[11px] font-bold transition flex items-center justify-center gap-1 border ${
+                  exp.reminderSet
+                    ? 'bg-turq-600 text-white border-turq-600'
+                    : 'bg-white text-turq-700 border-turq-300 hover:bg-turq-50'
+                }" title="Son ödeme tarihinden 1 gün önce tarayıcı bildirimi kur">
+                <i data-lucide="bell" class="w-3 h-3"></i>
+                <span>${exp.reminderSet ? 'Aktif' : 'Hatırlat'}</span>
+              </button>
+              <button onclick="togglePaidStatus('${exp.id}')"
+                class="py-1.5 px-2 rounded-lg text-[11px] font-extrabold transition flex items-center justify-center gap-1 ${
+                  exp.isPaid
+                    ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                    : 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm'
+                }">
+                <span>${exp.isPaid ? '✓ Ödendi' : 'Ödendi'}</span>
+              </button>
+            </div>
           </div>
         `;
       }).join('');
@@ -1079,9 +1129,9 @@
       ['all', 'income', 'expense', 'investment'].forEach(tab => {
         const btn = document.getElementById(`tab-${tab}`);
         if (state.activeFilter === tab) {
-          btn.className = 'tab-btn px-3 py-1.5 rounded-xl text-xs font-extrabold transition whitespace-nowrap turq-btn-primary';
+          btn.className = 'tab-btn px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition whitespace-nowrap turq-btn-primary';
         } else {
-          btn.className = 'tab-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition whitespace-nowrap text-turq-200/80 hover:text-white';
+          btn.className = 'tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap text-slate-600 hover:text-turq-600 hover:bg-slate-50';
         }
       });
 
@@ -1099,24 +1149,24 @@
 
       if (filtered.length === 0) {
         listEl.innerHTML = `
-          <div class="glass-card rounded-3xl p-7 sm:p-9 text-center space-y-3">
-            <div class="w-12 h-12 rounded-2xl bg-turq-500/20 border border-turq-400/35 mx-auto flex items-center justify-center text-turq-300">
+          <div class="white-card rounded-3xl p-7 sm:p-9 text-center space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-turq-50 border border-turq-200 mx-auto flex items-center justify-center text-turq-600">
               <i data-lucide="wallet" class="w-6 h-6"></i>
             </div>
             <div class="space-y-1 max-w-md mx-auto">
-              <p class="text-sm sm:text-base font-extrabold text-white">BütçeHesabım'a Hoş Geldiniz</p>
-              <p class="text-xs text-turq-200/80 leading-relaxed">
-                Tüm tablolarınız sıfırdan başlamaya hazır. Kendi maaş gününüzü, gelirlerinizi, fatura ödeme tarihlerinizi ve yatırımlarınızı ekleyerek başlayın.
+              <p class="text-sm sm:text-base font-extrabold text-slate-900">BütçeHesabım'a Hoş Geldiniz</p>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Gelirleriniz <b class="text-emerald-600">yeşil</b>, gider ve faturalarınız <b class="text-rose-600">kırmızı</b>, yatırımlarınız ise <b class="text-turq-600">turkuaz</b> renk ile listelenir. Hemen ilk kaydınızı ekleyerek başlayın.
               </p>
             </div>
             <div class="flex flex-wrap items-center justify-center gap-2 pt-2">
-              <button onclick="openTransactionModal('income')" class="px-4 py-2 rounded-xl turq-btn-primary text-xs font-extrabold">
+              <button onclick="openTransactionModal('income')" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold shadow-sm">
                 + Maaş / Gelir Ekle
               </button>
-              <button onclick="openTransactionModal('expense')" class="px-4 py-2 rounded-xl turq-btn-soft text-xs font-bold">
+              <button onclick="openTransactionModal('expense')" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold shadow-sm">
                 + Fatura / Gider Ekle
               </button>
-              <button onclick="openTransactionModal('investment')" class="px-4 py-2 rounded-xl turq-btn-soft text-xs font-bold">
+              <button onclick="openTransactionModal('investment')" class="px-4 py-2 rounded-xl turq-btn-primary text-xs font-extrabold">
                 + Yatırım Ekle
               </button>
             </div>
@@ -1129,22 +1179,29 @@
         const meta = getCategoryMeta(tx.type, tx.category);
         const dueDate = getDueDateInCycle(tx.dueDay, cycleInfo);
 
-        let iconColors = 'bg-turq-500/20 text-turq-300 border-turq-400/35';
+        // Color coding: Income = Green, Expense = Red, Investment = Turquoise
+        let iconColors = 'bg-emerald-50 text-emerald-600 border-emerald-200';
         let amountPrefix = '+';
-        let amountColor = 'text-turq-300';
+        let amountColor = 'text-emerald-600';
+        let rowLeftAccent = 'border-l-4 border-l-emerald-500';
 
         if (tx.type === 'expense') {
-          iconColors = 'bg-cyan-500/20 text-cyan-300 border-cyan-400/35';
+          iconColors = 'bg-rose-50 text-rose-600 border-rose-200';
           amountPrefix = '-';
-          amountColor = 'text-cyan-200';
+          amountColor = 'text-rose-600';
+          rowLeftAccent = tx.isPaid ? 'border-l-4 border-l-emerald-400 opacity-85' : 'border-l-4 border-l-rose-500';
         } else if (tx.type === 'investment') {
-          iconColors = 'bg-teal-400/20 text-teal-200 border-teal-300/35';
+          iconColors = 'bg-turq-50 text-turq-600 border-turq-200';
           amountPrefix = '';
-          amountColor = 'text-teal-200';
+          amountColor = 'text-turq-600';
+          rowLeftAccent = 'border-l-4 border-l-turq-500';
         }
 
+        // Calculate 1 day before reminder date for display
+        const reminderDate = new Date(dueDate.getTime() - 24 * 60 * 60 * 1000);
+
         return `
-          <div class="glass-card rounded-2xl p-3.5 sm:p-4 flex items-center justify-between gap-3 hover:border-turq-400/45 transition">
+          <div class="white-card ${rowLeftAccent} rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-turq-300 transition">
             <div class="flex items-center gap-3 min-w-0">
               <div class="w-10 h-10 rounded-xl border ${iconColors} flex items-center justify-center shrink-0">
                 <i data-lucide="${meta.icon}" class="w-4 h-4"></i>
@@ -1152,44 +1209,67 @@
 
               <div class="min-w-0">
                 <div class="flex items-center gap-1.5 flex-wrap">
-                  <h4 class="text-xs sm:text-sm font-bold text-white truncate">${escapeHtml(tx.title)}</h4>
-                  ${tx.isRecurring ? `<span class="text-[10px] px-1.5 py-0.5 rounded bg-turq-900/90 text-turq-300 border border-turq-500/30">Her Ay</span>` : ''}
+                  <h4 class="text-xs sm:text-sm font-extrabold text-slate-900 truncate ${tx.type === 'expense' && tx.isPaid ? 'line-through text-slate-500' : ''}">${escapeHtml(tx.title)}</h4>
+                  ${tx.isRecurring ? `<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">Her Ay</span>` : ''}
+                  ${tx.type === 'expense' && tx.reminderSet ? `<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-turq-50 text-turq-700 border border-turq-200 flex items-center gap-1"><i data-lucide="bell-ring" class="w-2.5 h-2.5"></i> ${formatDayMonth(reminderDate)}'de hatırlat</span>` : ''}
                 </div>
-                <div class="flex items-center gap-2 text-[11px] text-turq-200/75 mt-0.5 flex-wrap">
+                <div class="flex items-center gap-2 text-[11px] text-slate-500 font-medium mt-0.5 flex-wrap">
                   <span>${meta.label}</span>
                   <span>•</span>
-                  <span class="font-mono text-turq-300">Her ayın ${tx.dueDay}'i (${formatDayMonth(dueDate)})</span>
+                  <span class="font-mono font-semibold text-slate-700">Son Ödeme/İşlem: ${formatDayMonth(dueDate)} (Ayın ${tx.dueDay}'i)</span>
                 </div>
               </div>
             </div>
 
-            <div class="flex items-center gap-2.5 shrink-0">
-              <div class="text-right">
-                <p class="text-xs sm:text-sm font-mono font-extrabold ${amountColor}">
+            <div class="flex items-center justify-between sm:justify-end gap-2.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 shrink-0">
+              <!-- Expense Action Buttons: Hatırlat & Ödendi -->
+              ${
+                tx.type === 'expense'
+                  ? `<div class="flex items-center gap-1.5">
+                      <button onclick="toggleReminder('${tx.id}')"
+                        title="Son ödeme tarihinden 1 gün önce tarayıcı bildirimi kur"
+                        class="px-2.5 py-1.5 rounded-xl text-xs font-bold border transition flex items-center gap-1 ${
+                          tx.reminderSet
+                            ? 'bg-turq-600 text-white border-turq-600 shadow-sm'
+                            : 'bg-turq-50 text-turq-700 border-turq-200 hover:bg-turq-100'
+                        }">
+                        <i data-lucide="bell" class="w-3.5 h-3.5"></i>
+                        <span>${tx.reminderSet ? 'Hatırlatıcı Açık' : 'Hatırlat'}</span>
+                      </button>
+
+                      <button onclick="togglePaidStatus('${tx.id}')"
+                        title="Ödendi olarak işaretle ve bütçeden düş"
+                        class="px-3 py-1.5 rounded-xl text-xs font-extrabold border transition flex items-center gap-1 ${
+                          tx.isPaid
+                            ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                            : 'bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600 shadow-sm'
+                        }">
+                        <i data-lucide="${tx.isPaid ? 'check-circle-2' : 'check'}" class="w-3.5 h-3.5"></i>
+                        <span>${tx.isPaid ? 'Ödendi' : 'Ödendi'}</span>
+                      </button>
+                    </div>`
+                  : `<span class="text-[11px] font-bold px-2.5 py-1 rounded-lg ${
+                      tx.type === 'income'
+                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                        : 'bg-turq-50 text-turq-700 border border-turq-200'
+                    }">${tx.type === 'income' ? 'Gelir Kalemi' : 'Yatırım / Birikim'}</span>`
+              }
+
+              <div class="flex items-center gap-2">
+                <p class="text-sm sm:text-base font-mono font-extrabold ${amountColor}">
                   ${amountPrefix}${formatTL(tx.amount)}
                 </p>
-                ${
-                  tx.type === 'expense'
-                    ? `<button onclick="togglePaidStatus('${tx.id}')" class="mt-0.5 text-[10px] font-bold px-2 py-0.5 rounded-md transition ${
-                        tx.isPaid
-                          ? 'bg-turq-500/25 text-turq-200 border border-turq-400/35'
-                          : 'bg-cyan-500/25 text-cyan-200 border border-cyan-400/35'
-                      }">
-                        ${tx.isPaid ? '✓ Ödendi' : 'Bekliyor'}
-                      </button>`
-                    : `<span class="text-[10px] text-turq-300/70">${tx.type === 'income' ? 'Gelir' : 'Yatırım'}</span>`
-                }
-              </div>
 
-              <div class="flex flex-col sm:flex-row items-center gap-1">
-                <button onclick="openEditTransactionModal('${tx.id}')" title="Düzenle"
-                  class="p-1.5 rounded-lg text-turq-300/80 hover:text-white hover:bg-turq-800/60 transition">
-                  <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                </button>
-                <button onclick="deleteTransaction('${tx.id}')" title="Sil"
-                  class="p-1.5 rounded-lg text-turq-300/70 hover:text-cyan-200 hover:bg-turq-800/60 transition">
-                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                </button>
+                <div class="flex items-center gap-0.5">
+                  <button onclick="openEditTransactionModal('${tx.id}')" title="Düzenle"
+                    class="p-1.5 rounded-lg text-slate-400 hover:text-turq-600 hover:bg-slate-100 transition">
+                    <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <button onclick="deleteTransaction('${tx.id}')" title="Sil"
+                    class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1217,13 +1297,54 @@
       renderApp();
     }
 
+    // Toggle "Ödendi" status and immediately deduct from Cebinde Kalan Net Tutar
     function togglePaidStatus(id) {
       const item = state.transactions.find(t => t.id === id);
       if (!item) return;
       item.isPaid = !item.isPaid;
       saveState();
       renderApp();
-      showToast(item.isPaid ? `"${item.title}" ödendi olarak işaretlendi.` : `"${item.title}" bekliyor olarak güncellendi.`);
+      if (item.isPaid) {
+        showToast(`"${item.title}" ödendi olarak işaretlendi ve ${formatTL(item.amount)} bütçeden düşüldü.`, 'success');
+      } else {
+        showToast(`"${item.title}" bekleyen faturalara geri alındı.`, 'info');
+      }
+    }
+
+    // Toggle 1-Day-Before Browser Notification Reminder ("Hatırlat" button)
+    async function toggleReminder(id) {
+      const item = state.transactions.find(t => t.id === id);
+      if (!item) return;
+
+      if (!item.reminderSet) {
+        // Request Notification permission if needed
+        if ('Notification' in window && Notification.permission === 'default') {
+          await Notification.requestPermission();
+          updateNotificationUI();
+        }
+        item.reminderSet = true;
+        saveState();
+        renderApp();
+
+        const cycleInfo = getCycleInfo(state.salaryDay, state.cycleOffset);
+        const dueDate = getDueDateInCycle(item.dueDay, cycleInfo);
+        const reminderDate = new Date(dueDate.getTime() - 24 * 60 * 60 * 1000);
+
+        showToast(
+          `"${item.title}" için ${formatDayMonth(reminderDate)} tarihinde (son ödemeden 1 gün önce) bildirim kuruldu!`,
+          'success'
+        );
+
+        sendBrowserNotification(
+          'BütçeHesabım — Hatırlatıcı Kuruldu',
+          `${item.title} (${formatTL(item.amount)}) için son ödeme tarihinden 1 gün önce (${formatDayMonth(reminderDate)}) hatırlatma bildirimi alacaksınız.`
+        );
+      } else {
+        item.reminderSet = false;
+        saveState();
+        renderApp();
+        showToast(`"${item.title}" için ödeme hatırlatıcısı kapatıldı.`, 'info');
+      }
     }
 
     function deleteTransaction(id) {
@@ -1233,7 +1354,7 @@
       state.transactions.splice(idx, 1);
       saveState();
       renderApp();
-      showToast(`"${removed.title}" silindi.`);
+      showToast(`"${removed.title}" silindi.`, 'info');
     }
 
     // Modal Operations: Add / Edit Transaction
@@ -1246,7 +1367,13 @@
       document.getElementById('salaryDaySelect').innerHTML = dayOptions;
     }
 
-    function setModalType(type) {
+    function clearTitleInput() {
+      const titleInput = document.getElementById('txTitle');
+      titleInput.value = '';
+      titleInput.focus();
+    }
+
+    function setModalType(type, updateTitleToDefault = false) {
       state.modalType = type;
       const types = ['income', 'expense', 'investment'];
       types.forEach(t => {
@@ -1254,13 +1381,21 @@
         if (t === type) {
           btn.className = 'py-2 rounded-xl text-xs font-extrabold transition flex items-center justify-center gap-1.5 turq-btn-primary';
         } else {
-          btn.className = 'py-2 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 text-turq-200/75 hover:text-white';
+          btn.className = 'py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900';
         }
       });
 
       const list = CATEGORIES[type] || [];
       if (!list.some(c => c.id === state.selectedCategory)) {
         state.selectedCategory = list[0].id;
+      }
+
+      // Fix stuck input: when switching tabs in Add mode (or when requested), update title to active preset
+      if (updateTitleToDefault) {
+        const currentCat = list.find(c => c.id === state.selectedCategory) || list[0];
+        if (currentCat) {
+          document.getElementById('txTitle').value = currentCat.label;
+        }
       }
 
       renderCategoryPresets();
@@ -1286,25 +1421,28 @@
       container.innerHTML = list.map(cat => {
         const active = cat.id === state.selectedCategory;
         return `
-          <button type="button" onclick="selectCategoryPreset('${cat.id}', '${cat.label}')"
+          <button type="button" onclick="selectCategoryPreset('${cat.id}')"
             class="p-2.5 rounded-xl border text-left transition flex flex-col gap-1 ${
               active
-                ? 'bg-turq-500/30 border-turq-400 text-white shadow-sm'
-                : 'bg-turq-950/70 border-turq-500/25 text-turq-200/75 hover:border-turq-400/45'
+                ? 'bg-turq-50 border-turq-500 text-turq-900 shadow-sm ring-1 ring-turq-500'
+                : 'bg-white border-slate-200 text-slate-600 hover:border-turq-300 hover:bg-slate-50'
             }">
-            <i data-lucide="${cat.icon}" class="w-4 h-4 ${active ? 'text-turq-300' : 'text-turq-400/70'}"></i>
-            <span class="text-[11px] font-semibold truncate w-full">${cat.label}</span>
+            <i data-lucide="${cat.icon}" class="w-4 h-4 ${active ? 'text-turq-600' : 'text-slate-400'}"></i>
+            <span class="text-[11px] font-bold truncate w-full">${cat.label}</span>
           </button>
         `;
       }).join('');
       lucide.createIcons();
     }
 
-    function selectCategoryPreset(catId, defaultLabel) {
+    // FIXED: Clicking any category preset ALWAYS updates the title input cleanly so it never gets stuck on the previous option!
+    function selectCategoryPreset(catId) {
       state.selectedCategory = catId;
+      const list = CATEGORIES[state.modalType] || [];
+      const selectedObj = list.find(c => c.id === catId);
       const titleInput = document.getElementById('txTitle');
-      if (!titleInput.value.trim()) {
-        titleInput.value = defaultLabel;
+      if (selectedObj && titleInput) {
+        titleInput.value = selectedObj.label;
       }
       renderCategoryPresets();
     }
@@ -1312,14 +1450,20 @@
     function openTransactionModal(defaultType = 'expense') {
       document.getElementById('editTxId').value = '';
       document.getElementById('modalTitle').textContent = 'Yeni Bütçe Kalemi Ekle';
-      document.getElementById('txTitle').value = '';
+
+      const list = CATEGORIES[defaultType] || [];
+      state.selectedCategory = list[0].id;
+
+      document.getElementById('txTitle').value = list[0].label;
       document.getElementById('txAmount').value = '';
       document.getElementById('txDueDay').value = defaultType === 'income' ? state.salaryDay : new Date().getDate();
       document.getElementById('txIsPaid').checked = defaultType !== 'expense';
+      document.getElementById('txReminderSet').checked = defaultType === 'expense';
       document.getElementById('txIsRecurring').checked = true;
 
-      setModalType(defaultType);
+      setModalType(defaultType, true);
       document.getElementById('transactionModal').classList.remove('hidden');
+      setTimeout(() => document.getElementById('txAmount').focus(), 80);
     }
 
     function openEditTransactionModal(id) {
@@ -1329,12 +1473,13 @@
       document.getElementById('editTxId').value = tx.id;
       document.getElementById('modalTitle').textContent = 'Kaydı Düzenle';
       state.selectedCategory = tx.category;
-      setModalType(tx.type);
+      setModalType(tx.type, false);
 
       document.getElementById('txTitle').value = tx.title;
       document.getElementById('txAmount').value = tx.amount;
       document.getElementById('txDueDay').value = tx.dueDay;
       document.getElementById('txIsPaid').checked = Boolean(tx.isPaid);
+      document.getElementById('txReminderSet').checked = Boolean(tx.reminderSet);
       document.getElementById('txIsRecurring').checked = Boolean(tx.isRecurring);
 
       document.getElementById('transactionModal').classList.remove('hidden');
@@ -1351,10 +1496,11 @@
       const amount = parseFloat(document.getElementById('txAmount').value);
       const dueDay = parseInt(document.getElementById('txDueDay').value, 10);
       const isPaid = state.modalType === 'expense' ? document.getElementById('txIsPaid').checked : true;
+      const reminderSet = state.modalType === 'expense' ? document.getElementById('txReminderSet').checked : false;
       const isRecurring = document.getElementById('txIsRecurring').checked;
 
       if (!title || isNaN(amount) || amount <= 0) {
-        showToast('Lütfen geçerli bir açıklama ve tutar girin.');
+        showToast('Lütfen geçerli bir açıklama ve tutar girin.', 'error');
         return;
       }
 
@@ -1369,9 +1515,10 @@
           item.amount = amount;
           item.dueDay = dueDay;
           item.isPaid = isPaid;
+          item.reminderSet = reminderSet;
           item.isRecurring = isRecurring;
         }
-        showToast('Kayıt güncellendi.');
+        showToast('Kayıt güncellendi.', 'success');
       } else {
         state.transactions.push({
           id: 'tx_' + Date.now(),
@@ -1382,10 +1529,11 @@
           amount,
           dueDay,
           isPaid,
+          reminderSet,
           isRecurring,
           createdAt: new Date().toISOString()
         });
-        showToast('Yeni kayıt eklendi!');
+        showToast('Yeni kayıt eklendi!', 'success');
       }
 
       saveState();
@@ -1433,7 +1581,7 @@
       saveState();
       closeCycleModal();
       renderApp();
-      showToast(`Maaş günü her ayın ${newDay}'i olarak ayarlandı!`);
+      showToast(`Maaş günü her ayın ${newDay}'i olarak ayarlandı!`, 'success');
     }
 
     // Settings & Backup Modal
@@ -1460,7 +1608,7 @@
       a.download = `butcehesabim-yedek-${new Date().toISOString().slice(0, 10)}.json`;
       a.click();
       URL.revokeObjectURL(url);
-      showToast('BütçeHesabım yedeği indirildi.');
+      showToast('BütçeHesabım yedeği indirildi.', 'success');
     }
 
     function importDataJson(event) {
@@ -1476,12 +1624,12 @@
             saveState();
             renderApp();
             closeSettingsModal();
-            showToast('Yedek başarıyla geri yüklendi!');
+            showToast('Yedek başarıyla geri yüklendi!', 'success');
           } else {
-            showToast('Geçersiz yedek dosyası formatı.');
+            showToast('Geçersiz yedek dosyası formatı.', 'error');
           }
         } catch (err) {
-          showToast('Dosya okunamadı.');
+          showToast('Dosya okunamadı.', 'error');
         }
       };
       reader.readAsText(file);
@@ -1493,10 +1641,10 @@
       saveState();
       renderApp();
       closeSettingsModal();
-      showToast('Tüm tablolar sıfırlandı.');
+      showToast('Tüm tablolar sıfırlandı.', 'info');
     }
 
-    // BROWSER NOTIFICATION API (Ödeme Günü Hatırlatıcı)
+    // BROWSER NOTIFICATION API (Ödeme Günü & 1 Gün Öncesi Hatırlatıcı)
     function updateNotificationUI() {
       const statusText = document.getElementById('notifStatusText');
       const settingsStatus = document.getElementById('settingsNotifStatus');
@@ -1511,26 +1659,26 @@
         if (statusText) statusText.textContent = 'Bildirim Açık';
         if (settingsStatus) {
           settingsStatus.textContent = 'Aktif (İzin Verildi)';
-          settingsStatus.className = 'text-[11px] font-mono px-2 py-0.5 rounded-md bg-turq-500/25 text-turq-200';
+          settingsStatus.className = 'text-[11px] font-mono font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200';
         }
       } else if (Notification.permission === 'denied') {
         if (statusText) statusText.textContent = 'Engellendi';
         if (settingsStatus) {
           settingsStatus.textContent = 'Engellendi (Tarayıcı Ayarlarından Açın)';
-          settingsStatus.className = 'text-[11px] font-mono px-2 py-0.5 rounded-md bg-cyan-500/25 text-cyan-200';
+          settingsStatus.className = 'text-[11px] font-mono font-bold px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-200';
         }
       } else {
         if (statusText) statusText.textContent = 'Bildirimleri Aç';
         if (settingsStatus) {
           settingsStatus.textContent = 'İzin Bekleniyor';
-          settingsStatus.className = 'text-[11px] font-mono px-2 py-0.5 rounded-md bg-turq-800 text-turq-200';
+          settingsStatus.className = 'text-[11px] font-mono font-bold px-2 py-0.5 rounded-md bg-turq-50 text-turq-700 border border-turq-200';
         }
       }
     }
 
     async function handleNotificationPermission(fromSettings = false) {
       if (!('Notification' in window)) {
-        showToast('Tarayıcınız bildirim özelliğini desteklemiyor.');
+        showToast('Tarayıcınız bildirim özelliğini desteklemiyor.', 'error');
         return;
       }
 
@@ -1544,10 +1692,10 @@
       updateNotificationUI();
 
       if (permission === 'granted') {
-        showToast('Ödeme günü bildirimleri etkinleştirildi!');
+        showToast('Ödeme günü bildirimleri etkinleştirildi!', 'success');
         checkAndTriggerDueNotifications(true);
       } else {
-        showToast('Bildirim izni verilmedi.');
+        showToast('Bildirim izni verilmedi.', 'info');
       }
     }
 
@@ -1560,16 +1708,16 @@
             if (reg.showNotification) {
               reg.showNotification(title, {
                 body,
-                icon: '/icon.svg',
-                badge: '/icon.svg',
+                icon: './icon.svg',
+                badge: './icon.svg',
                 vibrate: [200, 100, 200]
               });
             } else {
-              new Notification(title, { body, icon: '/icon.svg' });
+              new Notification(title, { body, icon: './icon.svg' });
             }
           });
         } else {
-          new Notification(title, { body, icon: '/icon.svg' });
+          new Notification(title, { body, icon: './icon.svg' });
         }
       } catch (e) {
         new Notification(title, { body });
@@ -1578,7 +1726,7 @@
 
     function sendTestNotification() {
       if (!('Notification' in window)) {
-        showToast('Tarayıcınız Notification API desteklemiyor.');
+        showToast('Tarayıcınız Notification API desteklemiyor.', 'error');
         return;
       }
       if (Notification.permission !== 'granted') {
@@ -1586,10 +1734,10 @@
         return;
       }
       sendBrowserNotification(
-        'BütçeHesabım — Ödeme Günü Hatırlatması',
-        'Fatura ödeme günü bildirimleriniz aktif! Ödeme günü gelen kalemleriniz için bu şekilde hatırlatma alacaksınız.'
+        'BütçeHesabım — 1 Gün Önce Hatırlatıcı',
+        'Fatura hatırlatıcı sisteminiz aktif! Son ödeme tarihinden 1 gün önce bu şekilde bildirim alacaksınız.'
       );
-      showToast('Test bildirimi gönderildi!');
+      showToast('Test bildirimi gönderildi!', 'success');
     }
 
     function checkAndTriggerDueNotifications(forceNotify = false) {
@@ -1617,14 +1765,15 @@
         const diffDays = Math.round((dueStart - todayStart) / (1000 * 60 * 60 * 24));
 
         const logId = `${bill.id}_${todayKey}`;
-        if ((diffDays === 0 || diffDays === 1 || diffDays < 0) && (forceNotify || !notifiedMap[logId])) {
-          const msg = diffDays === 0
+        // Notify 1 day before due date (especially when reminderSet is true) or on due date
+        if ((diffDays === 1 || (bill.reminderSet && diffDays <= 1) || diffDays === 0) && (forceNotify || !notifiedMap[logId])) {
+          const msg = diffDays === 1
+            ? `Yarın son ödeme günü (1 gün kaldı): ${bill.title} (${formatTL(bill.amount)})`
+            : diffDays === 0
             ? `Bugün son ödeme günü: ${bill.title} (${formatTL(bill.amount)})`
-            : diffDays === 1
-            ? `Yarın ödeme günü: ${bill.title} (${formatTL(bill.amount)})`
             : `Ödeme gecikti: ${bill.title} (${formatTL(bill.amount)})`;
 
-          sendBrowserNotification('BütçeHesabım — Ödeme Hatırlatması', msg);
+          sendBrowserNotification('BütçeHesabım — Fatura Hatırlatıcı', msg);
           notifiedMap[logId] = true;
         }
       });
@@ -1633,17 +1782,21 @@
     }
 
     // Toast Helper
-    function showToast(message) {
+    function showToast(message, type = 'info') {
       const container = document.getElementById('toastContainer');
       const toast = document.createElement('div');
-      toast.className = 'pointer-events-auto px-4 py-2.5 rounded-2xl border bg-turq-900/95 border-turq-400/45 text-turq-100 shadow-xl text-xs font-bold flex items-center gap-2 transition-all duration-300';
+      let styleClass = 'bg-slate-900 text-white border-slate-700';
+      if (type === 'success') styleClass = 'bg-turq-700 text-white border-turq-500';
+      if (type === 'error') styleClass = 'bg-rose-600 text-white border-rose-500';
+
+      toast.className = `pointer-events-auto px-4 py-2.5 rounded-2xl border shadow-xl text-xs font-bold flex items-center gap-2 transition-all duration-300 ${styleClass}`;
       toast.innerHTML = `<span>${escapeHtml(message)}</span>`;
       container.appendChild(toast);
 
       setTimeout(() => {
         toast.style.opacity = '0';
         setTimeout(() => toast.remove(), 300);
-      }, 2600);
+      }, 2800);
     }
 
     function escapeHtml(str) {
@@ -1666,7 +1819,7 @@
 
       window.addEventListener('load', () => {
         navigator.serviceWorker
-          .register('./sw.js?v=2', { updateViaCache: 'none' })
+          .register('./sw.js?v=3', { updateViaCache: 'none' })
           .then((reg) => {
             reg.update().catch(() => {});
             if (reg.waiting) {
